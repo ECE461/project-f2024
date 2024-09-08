@@ -1,3 +1,22 @@
-# #!/usr/bin/env bash
+#!/usr/bin/env bash
 
-node dist/run.js "$@"
+if [ "$1" == "install" ]; then
+    npm install
+    STATUS=$?
+
+    if [ $STATUS -eq 0 ]; then
+        echo "Dependencies installed successfully."
+    else
+        echo "Error: npm install failed with exit code $STATUS."
+        exit $STATUS
+    fi
+
+    exit $STATUS
+else
+    # Check if dependencies are installed:
+    if [ ! -d "node_modules" ]; then
+        echo "Error: Dependencies are not installed. Run './run install' first."
+        exit 1
+    fi
+    node dist/run.js "$@"
+fi

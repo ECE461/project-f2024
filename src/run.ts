@@ -1,8 +1,8 @@
 import minimist from 'minimist';
 import { promises as fs } from 'fs';
-import { installDependencies } from './commands/install';
 
 // TODO: Move this to separate file and fully implement
+// TODO: Need to check that env variables are set
 async function handleUrlFile(urlFile: string) {
   console.log(`Processing file: ${urlFile}`);
   try {
@@ -41,9 +41,6 @@ async function main() {
   const command = args._[0];
 
   switch (command) {
-    case 'install':
-      await installDependencies();
-      break;
     case 'tests':
       console.log('Running tests...');
       break;
