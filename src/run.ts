@@ -21,9 +21,9 @@ const usage = `
 Usage: node run.js [command] [options]
 
 Commands:
-  install       Install dependencies
-  tests         Run tests
-  <url_file>.txt    Process a text file
+  install           Install project dependencies
+  test              Run unit tests
+  <url_file>.txt    Score modules from URLs listed in .txt file
 
 Options:
   --help        Show this help message
@@ -38,10 +38,14 @@ async function main() {
     process.exit(1);
   }
 
+  if (args.help) {
+    console.log(usage);
+  }
+
   const command = args._[0];
 
   switch (command) {
-    case 'tests':
+    case 'test':
       console.log('Running tests...');
       break;
     default:
