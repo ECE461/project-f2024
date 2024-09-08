@@ -1,28 +1,3 @@
-#!/usr/bin/env bash
+# #!/usr/bin/env bash
 
-usage() {
-    echo "Usage: $0 [-h] {install | <URL_FILE> | test}"
-    exit 1
-}
-
-
-# Check if no argument has been given
-if [ -z "$1" ]; then
-    usage
-fi
-
-case "$1" in
-    install)
-        echo "Performing installation..."
-        ;;
-    test)
-        echo "Running tests..."
-        ;;
-    *.txt)
-        echo "Processing File: $1"
-        ;;
-    *)
-        echo "Error: Invalid argument"
-        usage
-        ;;
-esac
+node dist/run.js "$@"
