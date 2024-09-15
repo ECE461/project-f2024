@@ -1,28 +1,22 @@
 #!/usr/bin/env bash
 
-usage() {
-    echo "Usage: $0 [-h] {install | <URL_FILE> | test}"
-    exit 1
-}
+if [ "$1" == "install" ]; then
+    npm install
+    STATUS=$?
 
+    if [ $STATUS -eq 0 ]; then
+        echo "Dependencies installed successfully."
+    else
+        echo "Error: npm install failed with exit code $STATUS."
+        exit $STATUS
+    fi
 
-# Check if no argument has been given
-if [ -z "$1" ]; then
-    usage
+    exit $STATUS
+else
+    # Check if dependencies are installed:
+    if [ ! -d "node_modules" ]; then
+        echo "Error: Dependencies are not installed. Run './run install' first."
+        exit 1
+    fi
+    node dist/run.js "$@"
 fi
-
-case "$1" in
-    install)
-        echo "Performing installation..."
-        ;;
-    test)
-        echo "Running tests..."
-        ;;
-    *.txt)
-        echo "Processing File: $1"
-        ;;
-    *)
-        echo "Error: Invalid argument"
-        usage
-        ;;
-esac
