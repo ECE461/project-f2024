@@ -1,22 +1,43 @@
 #!/usr/bin/env bash
 
+# Logging for bash script **************************************
+LOG_LEVEL=${LOG_LEVEL:-0}
+LOG_FILE=${LOG_FILE:-"default.log"}
+
+# LL_SILENT=0
+LL_INFO=1
+LL_DEBUG=2
+
+log() {
+    local level=$1
+    local message=$2
+
+    if [ "$LOG_LEVEL" -ge "$level" ]; then
+        echo "$message" >> "\n" >> $LOG_FILE
+    fi
+}
+# ****************************************************************
+
+# "install" command must be ran in bash because running js files requires "npm install" to be ran first
 if [ "$1" == "install" ]; then
     npm install
     STATUS=$?
 
     if [ $STATUS -eq 0 ]; then
-        echo "Dependencies installed successfully."
+        log $LL_INFO "Dependencies installed successfully"
     else
-        echo "Error: npm install failed with exit code $STATUS."
-        exit $STATUS
+        log $LL_INFO "Error: npm install failed with exit code $STATUS"
     fi
 
+    # Exit with 0 if npm install was successful, otherwise exit with the error code
     exit $STATUS
 else
     # Check if dependencies are installed:
     if [ ! -d "node_modules" ]; then
-        echo "Error: Dependencies are not installed. Run './run install' first."
+        log $LL_INFO "Error: Dependencies are not installed. Run './run install' first"
         exit 1
     fi
+
+    # run.js handles "test" and "<url_file>" commands
     node dist/run.js "$@"
 fi
