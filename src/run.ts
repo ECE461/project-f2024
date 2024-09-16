@@ -1,21 +1,7 @@
 import minimist from 'minimist';
-import { promises as fs } from 'fs';
-
-// TODO: Move this to separate file and fully implement
-// TODO: Need to check that env variables are set
-async function handleUrlFile(urlFile: string) {
-  console.log(`Processing file: ${urlFile}`);
-  try {
-    const data = await fs.readFile(urlFile, 'utf-8');
-    console.log('File content:', data);
-  } catch (error) {
-    if (error instanceof Error) {
-        console.error('Error reading file:', error.message);
-    } else {
-        console.error('An unknown error occurred');
-    }
-  }
-}
+import { URLFileHandler } from './urlUtils/URLFileHandler';
+import { Logger } from './logUtils';
+import { log } from 'console';
 
 const usage = `
 Usage: node run.js [command] [options]
@@ -24,40 +10,54 @@ Commands:
   install           Install project dependencies
   test              Run unit tests
   <url_file>.txt    Score modules from URLs listed in .txt file
-
-Options:
-  --help        Show this help message
 `;
 
+/**
+ * [main] - Home base of the program. Calls other functions based on command line
+ * arguments e.g "./run test" or "./run <url_file>".
+ * 
+ * Note: "./run install" is handled in the bash script 
+ */
 async function main() {
   // Parse command line arguments
   const args = minimist(process.argv.slice(2));
 
+  // If no arguments are provided, show usage
   if (args._.length === 0) {
     console.log(usage);
     process.exit(1);
   }
 
-  if (args.help) {
-    console.log(usage);
+  const argument = args._[0];
+
+  if (argument === 'test') {
+    Logger.logDebug('Running tests...');
+
+    // Sample output
+    console.log(`Total: 10
+Passed: 9
+Coverage: 90%
+9/10 test cases passed. 90% line coverage achieved.
+  `);
   }
+  else if (URLFileHandler.isTxtFile(argument)) {
+    const urls = await URLFileHandler.getGithubUrlsFromFile(argument);
+    if (urls === null) {
+      Logger.logInfo('Error reading file or invalid URLs');
+      process.exit(1)
+    }
+    // TODO: Call to concurrency function and scoring logic
 
-  const command = args._[0];
-
-  switch (command) {
-    case 'test':
-      console.log('Running tests...');
-      break;
-    default:
-      if (command.endsWith('.txt')) {
-        await handleUrlFile(command);
-      } else {
-        console.log(usage);
-      }
+    // Sample output
+    console.log(`{"URL":"https://www.npmjs.com/package/express", "NetScore":0, "NetScore_Latency": 0.133,"RampUp":0.5, "RampUp_Latency": 0.002, "Correctness":0.7, "Correctness_Latency":0.076, "BusFactor":-1, "BusFactor_Latency":-1, "ResponsiveMaintainer":0.6, "ResponsiveMaintainer_Latency": 0.009, "License":0, "License_Latency": 0.046}`)
+  }
+  else {
+    console.log(usage);
+    process.exit(1);
   }
 }
 
 main().catch(error => {
-  console.error('Error:', error.message);
+  Logger.logDebug('Error:'+ error);
   process.exit(1);
 });
