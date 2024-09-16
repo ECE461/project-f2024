@@ -4,6 +4,10 @@
 LOG_LEVEL=${LOG_LEVEL:-0}
 LOG_FILE=${LOG_FILE:-"default.log"}
 
+if [ ! -f "$LOG_FILE" ]; then
+    touch "$LOG_FILE"
+fi
+
 # LL_SILENT=0
 LL_INFO=1
 LL_DEBUG=2
@@ -13,7 +17,7 @@ log() {
     local message=$2
 
     if [ "$LOG_LEVEL" -ge "$level" ]; then
-        echo "$message" >> "\n" >> $LOG_FILE
+        echo "${message}\n" >> $LOG_FILE
     fi
 }
 # ****************************************************************

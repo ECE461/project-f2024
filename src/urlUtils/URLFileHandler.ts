@@ -1,0 +1,38 @@
+import { promises as fs } from 'fs';
+import { URLHandler } from './URLHandler';
+import { Logger } from '../logUtils';
+
+export class URLFileHandler {
+    public static isTxtFile(filePath: string): boolean {
+        return filePath.endsWith('.txt');
+    }
+
+    public static async getGithubUrlsFromFile(filePath: string): Promise<string[] | null> {
+        try {
+            const data = await fs.readFile(filePath, 'utf-8');
+            const urls = data.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+
+            const githubUrls: string[] = [];
+            for (const url of urls) {
+                if (URLHandler.isValidURL(url)) {
+                    const githubUrl = await URLHandler.getRepoURL(url);
+                    if (githubUrl) {
+                        githubUrls.push(githubUrl);
+                    }
+                    else {
+                        // If URL is invalid, not github/npm, or github URL not found from npm URL -> return null
+                        return null;
+                    }
+                }
+                else {
+                    return null;
+                }
+            }
+            return githubUrls;
+        } catch (error) {
+            Logger.logDebug('Error reading file:' + error);
+            return null;
+        }
+        
+    }
+}

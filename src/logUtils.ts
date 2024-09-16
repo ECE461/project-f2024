@@ -11,6 +11,10 @@ const envLogLevel = parseInt(process.env.LOG_LEVEL || '0', 10);
 const logLevel = Object.values(LogLevel).includes(envLogLevel) ? envLogLevel : LogLevel.SILENT;
 const logFilePath = process.env.LOG_FILE || './default.log';
 
+if (!fs.existsSync(logFilePath)) {
+    fs.writeFileSync(logFilePath, '',  { flag: 'w' });
+}
+
 /**
  * @method logInfo
  * Logs message to file if log level is INFO(1) or higher
@@ -27,7 +31,6 @@ const logFilePath = process.env.LOG_FILE || './default.log';
  */
 export class Logger {
     public static logInfo(message: string) {
-        console.log(logLevel);
         if (logLevel >= LogLevel.INFO) {
             try {
                 fs.appendFileSync(logFilePath, message + "\n", 'utf8');
