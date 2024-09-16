@@ -28,6 +28,11 @@ export class URLHandler {
 
   public async setRepoURL(): Promise<void> {
     if (URLHandler.isValidURL(this.url)) {
+      const exists = await URLHandler.checkUrlExists(this.url);
+      if (!exists) {
+        return
+      }
+
       if (this.url.startsWith('https://www.npmjs.com/package/')) {
         this.githubURL = await URLHandler.getGithubURLFromNpmURL(this.url);
       }
@@ -45,6 +50,16 @@ export class URLHandler {
     } catch (error) {
         Logger.logDebug('Invalid URL format:' + error);
         return false;
+    }
+  }
+
+  public static async checkUrlExists(url: string): Promise<boolean> {
+    try {
+      const response = await fetch(url, { method: 'HEAD' });
+      return response.ok;
+    } catch (error) {
+      Logger.logInfo('Error checking URL:' + error);
+      return false;
     }
   }
 

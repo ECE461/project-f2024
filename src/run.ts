@@ -2,6 +2,7 @@ import minimist from 'minimist';
 import { URLFileHandler } from './urlUtils/URLFileHandler';
 import { Logger } from './logUtils';
 import { log } from 'console';
+import { runTests } from './commands/test';
 
 const usage = `
 Usage: node run.js [command] [options]
@@ -32,13 +33,8 @@ async function main() {
 
   if (argument === 'test') {
     Logger.logDebug('Running tests...');
-
-    // Sample output
-    console.log(`Total: 10
-Passed: 9
-Coverage: 90%
-9/10 test cases passed. 90% line coverage achieved.
-  `);
+    console.log("Running tests...");
+    runTests();
   }
   else if (URLFileHandler.isTxtFile(argument)) {
     const urls = await URLFileHandler.getGithubUrlsFromFile(argument);
