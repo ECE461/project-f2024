@@ -3,6 +3,8 @@ import { URLFileHandler } from './urlUtils/URLFileHandler';
 import { Logger } from './logUtils';
 import { log } from 'console';
 import { runTests } from './commands/test';
+import {urlCommand} from './commands/urlCommand';
+import { url } from 'inspector';
 
 const usage = `
 Usage: node run.js [command] [options]
@@ -37,11 +39,7 @@ async function main() {
     runTests();
   }
   else if (URLFileHandler.isTxtFile(argument)) {
-    const urls = await URLFileHandler.getGithubUrlsFromFile(argument);
-    if (urls === null) {
-      Logger.logInfo('Error reading file or invalid URLs');
-      process.exit(1)
-    }
+    await urlCommand(argument);
     // TODO: Call to concurrency function and scoring logic
 
     
