@@ -16,20 +16,25 @@ import { Logger } from '../logUtils';
  */
 
 export class URLHandler {
+  url: string;
+  githubURL: string | null = null;
+  constructor(url: string) {
+    this.url = url;
+  }
 
-  public static async getRepoURL(url: string): Promise<string | null> {
-    if (!URLHandler.isValidURL(url)) {
-        return null;
-    }
+  public async getRepoURL(): Promise<string | null> {
+    return this.githubURL;
+  }
 
-    if (url.startsWith('https://www.npmjs.com/package/')) {
-        return await URLHandler.getGithubURLFromNpmURL(url);
+  public async setRepoURL(): Promise<void> {
+    if (URLHandler.isValidURL(this.url)) {
+      if (this.url.startsWith('https://www.npmjs.com/package/')) {
+        this.githubURL = await URLHandler.getGithubURLFromNpmURL(this.url);
+      }
+      else if (this.url.startsWith('https://github.com/')) {
+        this.githubURL = this.url;
+      }
     }
-    else if (url.startsWith('https://github.com/')) {
-        return url;
-    }
-
-    return null;
   }
 
   public static isValidURL(url: string): boolean {
