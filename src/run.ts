@@ -1,5 +1,5 @@
 import minimist from 'minimist';
-import { URLFileHandler } from './urlUtils/URLFileHandler';
+import { URLFileHandler } from './utils/URLFileHandler';
 import { Logger } from './logUtils';
 import { log } from 'console';
 import { runTests } from './commands/test';

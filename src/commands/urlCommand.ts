@@ -1,5 +1,5 @@
 import {Logger} from '../logUtils';
-import { URLFileHandler } from '../urlUtils/URLFileHandler';
+import { URLFileHandler } from '../utils/URLFileHandler';
 import { BusFactor } from '../metrics/BusFactor';
 import { Correctness } from '../metrics/Correctness';
 import { RampUp } from '../metrics/RampUp';
