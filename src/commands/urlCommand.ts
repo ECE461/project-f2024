@@ -6,7 +6,7 @@ import { RampUp } from '../metrics/RampUp';
 import { License } from '../metrics/License';
 import { ResponsiveMetric } from '../metrics/ResponsiveMetric';
 import { NetScore } from '../metrics/NetScore';
-import { URLHandler } from '../urlUtils/URLHandler';
+import { URLHandler } from '../utils/URLHandler';
 
 export async function urlCommand (argument:string) {
 

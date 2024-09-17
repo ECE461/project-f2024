@@ -1,4 +1,4 @@
-import { URLHandler } from '../urlUtils/URLHandler';
+import { URLHandler } from '../utils/URLHandler';
 import { BusFactor } from './BusFactor';
 import { Correctness } from './Correctness';
 import { RampUp } from './RampUp';

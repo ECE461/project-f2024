@@ -1,4 +1,4 @@
-import { URLHandler } from '../urlUtils/URLHandler';
+import { URLHandler } from '../utils/URLHandler';
 // Metric Class
 // has score variable, getScore, calculateScore, and url
 // Abstract Class

@@ -1,5 +1,5 @@
 import {Metric} from './Metric';
-import { URLHandler } from '../urlUtils/URLHandler';
+import { URLHandler } from '../utils/URLHandler';
 
 export class ResponsiveMetric extends Metric {
     jsonKey: string = "ResponsiveMaintainer";

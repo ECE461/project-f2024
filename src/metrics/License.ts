@@ -1,5 +1,5 @@
 import {Metric} from './Metric';
-import { URLHandler } from '../urlUtils/URLHandler';
+import { URLHandler } from '../utils/URLHandler';
 
 export class License extends Metric {
     jsonKey: string = "License";
