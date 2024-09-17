@@ -34,7 +34,7 @@ export async function urlCommand (argument:string) {
       const respMet = new ResponsiveMetric(url); // git api call
 
       netScore.startTimer();
-      const results = await Promise.all([busFactor.calculateScore(), corScore.calculateScore(), rampUp.calculateScore(), licScore.calculateScore(), respMet.calculateScore()]);
+      const results = await Promise.allSettled([busFactor.calculateScore(), corScore.calculateScore(), rampUp.calculateScore(), licScore.calculateScore(), respMet.calculateScore()]);
       netScore.endTimer();
 
       netScore.calculateScore(rampUp, busFactor, corScore, licScore,  respMet);
