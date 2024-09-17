@@ -6,6 +6,8 @@ import { ResponsiveMetric } from './ResponsiveMetric';
 import { License } from './License';
 
 export class NetScore{
+    jsonKey: string = "NetScore";
+    
     calculateScore(busFactor: BusFactor, correctness: Correctness, liscene: License, rampUp: RampUp, respMet: ResponsiveMetric): number {
         const busWeight = 0.2;
         const correctnessWeight = 0.2;

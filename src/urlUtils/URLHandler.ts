@@ -26,6 +26,10 @@ export class URLHandler {
     return this.githubURL;
   }
 
+  public getURL(): string {
+    return this.url;
+  }
+
   public async setRepoURL(): Promise<void> {
     if (URLHandler.isValidURL(this.url)) {
       const exists = await URLHandler.checkUrlExists(this.url);

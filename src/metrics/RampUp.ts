@@ -2,6 +2,8 @@ import {Metric} from './Metric';
 import { URLHandler } from '../urlUtils/URLHandler';
 
 export class RampUp extends Metric {
+    jsonKey: string = "RampUp";
+
     constructor(url: URLHandler) {
         super(url);
     }
