@@ -22,7 +22,7 @@ export class URLHandler {
     this.url = url;
   }
 
-  public async getRepoURL(): Promise<string | null> {
+  public getRepoURL(): string | null {
     return this.githubURL;
   }
 

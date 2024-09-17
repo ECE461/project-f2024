@@ -6,6 +6,7 @@ import { RampUp } from '../metrics/RampUp';
 import { License } from '../metrics/License';
 import { ResponsiveMetric } from '../metrics/ResponsiveMetric';
 import { NetScore } from '../metrics/NetScore';
+import { URLHandler } from '../urlUtils/URLHandler';
 
 export async function urlCommand (argument:string) {
 
@@ -17,7 +18,6 @@ export async function urlCommand (argument:string) {
     
     for (const url of urls) {
       // TODO: function to clone repository***
-
       Logger.logInfo(`Processing URL: ${url}`);
       const busFactor = new BusFactor(url);  // git clone
       const corScore = new Correctness(url);
