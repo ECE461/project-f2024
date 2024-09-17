@@ -1,13 +1,11 @@
 import {Metric} from './Metric';
 import { URLHandler } from '../urlUtils/URLHandler';
 
-class BusFactor extends Metric {
+export class BusFactor extends Metric {
     constructor(url: URLHandler) {
         super(url);
     }
-    calculateScore(): number {
+    calculateScore(): void {
         this.score = Math.random()*10;
-
-        return this.score;
     }
 }

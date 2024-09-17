@@ -9,7 +9,10 @@ export abstract class Metric {
         this.score = 0;
         this.url = url;
     }
-    abstract calculateScore(): number; 
+    abstract calculateScore(): void; 
+    getScore(): number {
+        return this.score;
+    }
     getURL(): URLHandler {
         return this.url;
     }
