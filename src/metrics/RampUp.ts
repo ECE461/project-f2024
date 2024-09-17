@@ -8,6 +8,12 @@ export class RampUp extends Metric {
         super(url);
     }
     calculateScore(): void {
-        this.score = Math.random()*10;
+        // Start timer for latency
+        this.startTimer();
+
+        this.score = Math.random();
+ 
+        // End timer for latency
+        this.endTimer();
     }
 }

@@ -22,7 +22,10 @@ export class URLHandler {
     this.url = url;
   }
 
-  public getRepoURL(): string | null {
+  public getRepoURL(): string {
+    if (this.githubURL === null) {
+      return "";
+    }
     return this.githubURL;
   }
 

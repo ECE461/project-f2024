@@ -39,17 +39,15 @@ async function main() {
     runTests();
   }
   else if (URLFileHandler.isTxtFile(argument)) {
+    // Score modules from URLs listed in file (arument)
     await urlCommand(argument);
-    // TODO: Call to concurrency function and scoring logic
-
-    
-    // Sample output
-    // console.log(`{"URL":"https://www.npmjs.com/package/express", "NetScore":0, "NetScore_Latency": 0.133,"RampUp":0.5, "RampUp_Latency": 0.002, "Correctness":0.7, "Correctness_Latency":0.076, "BusFactor":-1, "BusFactor_Latency":-1, "ResponsiveMaintainer":0.6, "ResponsiveMaintainer_Latency": 0.009, "License":0, "License_Latency": 0.046}`)
   }
   else {
     console.log(usage);
     process.exit(1);
   }
+
+  process.exit(0);
 }
 
 main().catch(error => {

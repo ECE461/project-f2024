@@ -6,12 +6,14 @@ export abstract class Metric {
     score: number;
     url: URLHandler;
     latency: number;
+    start: number;
     abstract jsonKey: string;
 
     constructor(url: URLHandler) {
         this.score = 0;
         this.url = url;
         this.latency = 0;
+        this.start = 0;
     }
 
     abstract calculateScore(): void; 
@@ -24,14 +26,22 @@ export abstract class Metric {
         return this.url;
     }
 
-    public getMetricObject(): Object {
+    public getJsonObject(): Object {
         return {
             [this.jsonKey]: this.score,
             [this.getJSONLatencyKey()]: this.latency
         }
     }
-    
+
     private getJSONLatencyKey(): string {
         return `${this.jsonKey}_Latency`;
+    }
+
+    public startTimer(): void {
+        this.start = Date.now();
+    }
+
+    public endTimer(): void {
+        this.latency = Date.now() - this.start;
     }
 }

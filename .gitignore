@@ -11,3 +11,5 @@ dist/
 
 # Coverage output
 coverage/
+
+tmp/
