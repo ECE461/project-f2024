@@ -3,7 +3,7 @@ import {execSync} from 'child_process'; //used to write shell commands
 import * as path from 'path'; 
 
 //files
-import { URLHandler } from "./URLHandler";
+// import { URLHandler } from "./URLHandler";
 
 /**
  * Stuff with  more arguments.
@@ -17,8 +17,8 @@ export function gitClone(url: string, filename: string){
         
         const command = `git clone ${url} ${filename ? filename : ''}`;
 
-        //run the command in terminal, ensure that git clones to current directory
-        execSync(command, {stdio: 'inherit', path.resolve('utils' , '../../')})
+        //run the command in terminal, ensure that git clones to current working directory
+        execSync(command, {stdio: 'inherit',  cwd: path.resolve('utils' , '../')})
 
         console.log('your repository cloned successfully');
 
@@ -28,4 +28,4 @@ export function gitClone(url: string, filename: string){
     }
 }
 
-gitClone('https://github.com/me50/tianayjlin.git', )
+// gitClone('https://github.com/me50/tianayjlin.git', 'dummy_repo');
