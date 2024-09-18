@@ -30,9 +30,6 @@ export function folderExists(path: string){
  */
 export async function gitClone(url: URLHandler){
 
-    // const clone_repo = "../../tmp" + filename;
-    console.log('dirname: ' + __dirname);
-    
     //cd.. back into project-f2024 folder
     const proj_folder = path.join(__dirname, '../../');
     
