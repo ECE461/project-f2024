@@ -22,7 +22,7 @@ export async function urlCommand (argument:string) {
     // TODO: Maybe make this parallel?
     for (const url of urls) {
       // Clone repository
-      gitClone(url.getRepoURL(), "");
+      gitClone(url);
 
       // Calculate metrics
       Logger.logInfo(`Processing URL: ${url.getRepoURL()}`);

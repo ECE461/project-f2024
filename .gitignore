@@ -12,4 +12,4 @@ dist/
 # Coverage output
 coverage/
 
-tmp/
+cloned_repos

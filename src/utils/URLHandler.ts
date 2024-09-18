@@ -48,6 +48,16 @@ export class URLHandler {
       }
     }
   }
+  
+  public getRepoName(): string{
+    const match = this.url.match(/\/([^\/]+?)\.git$/);
+
+    if (match && match.length > 1) {
+      return match[1];
+    }
+    
+    return "";
+  }
 
   public static isValidURL(url: string): boolean {
     // Check if URL is valid
