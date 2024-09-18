@@ -7,7 +7,7 @@ import { License } from '../metrics/License';
 import { ResponsiveMetric } from '../metrics/ResponsiveMetric';
 import { NetScore } from '../metrics/NetScore';
 import { URLHandler } from '../utils/URLHandler';
-import { gitClone } from '../utils/gitClone';
+import { gitClone } from '../utils/isoGitHelper';
 import { createNDJsonResult } from '../metrics/resultsHelper';
 
 export async function urlCommand (argument:string) {
@@ -22,7 +22,7 @@ export async function urlCommand (argument:string) {
     // TODO: Maybe make this parallel?
     for (const url of urls) {
       // Clone repository
-      gitClone(url.getRepoURL(), "");
+      gitClone(url);
 
       // Calculate metrics
       Logger.logInfo(`Processing URL: ${url.getRepoURL()}`);
