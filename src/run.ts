@@ -1,8 +1,10 @@
 import minimist from 'minimist';
-import { URLFileHandler } from './urlUtils/URLFileHandler';
+import { URLFileHandler } from './utils/URLFileHandler';
 import { Logger } from './logUtils';
 import { log } from 'console';
 import { runTests } from './commands/test';
+import {urlCommand} from './commands/urlCommand';
+import { url } from 'inspector';
 
 const usage = `
 Usage: node run.js [command] [options]
@@ -37,20 +39,15 @@ async function main() {
     runTests();
   }
   else if (URLFileHandler.isTxtFile(argument)) {
-    const urls = await URLFileHandler.getGithubUrlsFromFile(argument);
-    if (urls === null) {
-      Logger.logInfo('Error reading file or invalid URLs');
-      process.exit(1)
-    }
-    // TODO: Call to concurrency function and scoring logic
-
-    // Sample output
-    console.log(`{"URL":"https://www.npmjs.com/package/express", "NetScore":0, "NetScore_Latency": 0.133,"RampUp":0.5, "RampUp_Latency": 0.002, "Correctness":0.7, "Correctness_Latency":0.076, "BusFactor":-1, "BusFactor_Latency":-1, "ResponsiveMaintainer":0.6, "ResponsiveMaintainer_Latency": 0.009, "License":0, "License_Latency": 0.046}`)
+    // Score modules from URLs listed in file (arument)
+    await urlCommand(argument);
   }
   else {
     console.log(usage);
     process.exit(1);
   }
+
+  process.exit(0);
 }
 
 main().catch(error => {

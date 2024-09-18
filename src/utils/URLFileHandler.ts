@@ -19,7 +19,7 @@ export class URLFileHandler {
                     await URL.setRepoURL();
 
                     const githubUrl = await URL.getRepoURL();
-                    if (githubUrl) {
+                    if (githubUrl !== "") {
                         urlItems.push(URL);
                     }
                     else {
