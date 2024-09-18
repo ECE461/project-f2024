@@ -7,7 +7,18 @@ export class BusFactor extends Metric {
     constructor(url: URLHandler) {
         super(url);
     }
+
     calculateScore(): void {
-        this.score = Math.random()*10;
+        this.startTimer();
+        
+        //checks existence of cloned repository
+
+
+
+        
+        this.score = Math.random() * 10;
+
+        // End timer for latency
+        this.endTimer();
     }
 }

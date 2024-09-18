@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "shx rm -rf dist && tsc -b",
+    "build": "npm run clean && tsc -b",
     "clone": "npm run build && node dist/utils/gitClone.js",
-    "test": "jest"
+    "test": "jest",
+    "clean": "shx rm -rf dist && rm -rf cloned repos"
   },
   "keywords": [],
   "author": "",

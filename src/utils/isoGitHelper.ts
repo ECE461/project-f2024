@@ -51,5 +51,5 @@ export async function gitClone(url: URLHandler){
 
 }
 
-// gitClone(new URLHandler('https://github.com/tianayjlin/dummy_repo.git'));
+gitClone(new URLHandler('https://github.com/monkeytypegame/monkeytype.git'));
 
