@@ -7,7 +7,7 @@ export class BusFactor extends Metric {
     constructor(url: URLHandler) {
         super(url);
     }
-    calculateScore(): void {
+    async calculateScore(): Promise<void> {
         this.score = Math.random()*10;
     }
 }

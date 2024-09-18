@@ -29,15 +29,15 @@ export async function urlCommand (argument:string) {
       const netScore = new NetScore()
       const busFactor = new BusFactor(url);  // git clone
       const corScore = new Correctness(url);
-      const rampUp = new RampUp(url); // git clone
+      const rampUp = new RampUp(url); // git api call
       const licScore = new License(url); // git api call
       const respMet = new ResponsiveMetric(url); // git api call
 
       netScore.startTimer();
-      const results = await Promise.allSettled([busFactor.calculateScore(), corScore.calculateScore(), rampUp.calculateScore(), licScore.calculateScore(), respMet.calculateScore()]);
+      await Promise.allSettled([busFactor.calculateScore(), corScore.calculateScore(), rampUp.calculateScore(), licScore.calculateScore(), respMet.calculateScore()]);
       netScore.endTimer();
 
-      netScore.calculateScore(rampUp, busFactor, corScore, licScore,  respMet);
+      await netScore.calculateScore(busFactor, corScore, licScore, rampUp,  respMet);
 
       const ndjsonResult = createNDJsonResult(netScore, [rampUp, corScore, busFactor, respMet, licScore]);
       

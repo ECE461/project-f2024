@@ -7,7 +7,7 @@ export class ResponsiveMetric extends Metric {
     constructor(url: URLHandler) {
         super(url);
     }
-    calculateScore(): void {
+    async calculateScore(): Promise<void> {
         // Start timer for latency
         this.startTimer();
 
