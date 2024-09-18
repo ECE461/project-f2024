@@ -6,15 +6,6 @@ enum LogLevel {
     DEBUG = 2,
 }
 
-// Set settings from environment variables
-const envLogLevel = parseInt(process.env.LOG_LEVEL || '0', 10);
-const logLevel = Object.values(LogLevel).includes(envLogLevel) ? envLogLevel : LogLevel.SILENT;
-const logFilePath = process.env.LOG_FILE || './default.log';
-
-if (!fs.existsSync(logFilePath)) {
-    fs.writeFileSync(logFilePath, '',  { flag: 'w' });
-}
-
 /**
  * @method logInfo
  * Logs message to file if log level is INFO(1) or higher
@@ -30,23 +21,37 @@ if (!fs.existsSync(logFilePath)) {
  *      Logger.logDebug("Debug Message"); // Logs to file if log level is DEBUG(2) or higher
  */
 export class Logger {
-    public static logInfo(message: string) {
-        if (logLevel >= LogLevel.INFO) {
-            try {
-                fs.appendFileSync(logFilePath, message + "\n", 'utf8');
-            } catch (error) {
-                console.error('Error writing to log file:', error);
-            }   
+    public static envLogLevel: LogLevel = LogLevel.SILENT;
+    public static logLevel: LogLevel = LogLevel.SILENT;
+    public static logFilePath: string = './default.log';
+
+    constructor() {
+        // Set settings from environment variables
+        Logger.envLogLevel = parseInt(process.env.LOG_LEVEL || '0', 10);
+        Logger.logLevel = Object.values(LogLevel).includes(Logger.envLogLevel) ? Logger.envLogLevel : LogLevel.SILENT;
+        Logger.logFilePath = process.env.LOG_FILE || './default.log';  
+        if (!fs.existsSync(Logger.logFilePath)) {
+            fs.writeFileSync(Logger.logFilePath, '',  { flag: 'w' });
         }
     }
-    
-    public static logDebug(message: string) {
-        if (logLevel >= LogLevel.DEBUG) {
+
+    public static logInfo(message: string) {
+        if (Logger.logLevel >= LogLevel.INFO) {
             try {
-                fs.appendFileSync(logFilePath, message + "\n", 'utf8');
+                fs.appendFileSync(Logger.logFilePath, message + "\n", 'utf8');
             } catch (error) {
                 console.error('Error writing to log file:', error);
-            } 
+            }
+        }
+    }
+
+    public static logDebug(message: string) {
+        if (Logger.logLevel >= LogLevel.DEBUG) {
+            try {
+                fs.appendFileSync(Logger.logFilePath, message + "\n", 'utf8');
+            } catch (error) {
+                console.error('Error writing to log file:', error);
+            }
         }
     }
 }

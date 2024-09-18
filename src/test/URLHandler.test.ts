@@ -10,20 +10,6 @@ describe('URLHandler', () => {
         urlHandler = new URLHandler('https://github.com/user/repo');
     });
 
-    // describe('setRepoURL', () => {
-    //     it('should set the repository URL', async () => {
-    //         await urlHandler.setRepoURL('https://github.com/new/repo');
-    //         expect(urlHandler.getRepoURL()).toBe('https://github.com/new/repo');
-    //     });
-    // });
-
-    // describe('getRepoURL', () => {
-    //     it('should return the repository URL', async () => {
-    //         const repoURL = await urlHandler.getRepoURL();
-    //         expect(repoURL).toBe('https://github.com/user/repo');
-    //     });
-    // });
-
     describe('isValidURL', () => {
         it('should return true for a valid URL', () => {
             expect(URLHandler.isValidURL('https://github.com/user/repo')).toBe(true);
