@@ -43,16 +43,20 @@ export async function gitClone(url: URLHandler){
     folderExists(cloned_folder);
     
     try{
-        await git.clone({fs, http, dir: cloned_folder, url: url.url, singleBranch: true, depth: 1})
-        console.log('successfully git cloned ', url.getRepoName());
+        await git.clone({fs, http, dir: cloned_folder, url: url.getRepoURL(), singleBranch: true, depth: 1})
+        Logger.logInfo('Successfully git cloned ' + url.getRepoName());
     }
     catch(Error){
-        console.error('unsuccessful git clone'); 
+        console.error('Unsuccessful git clone ', url.getRepoName()); 
         Logger.logDebug(Error);
     }
 
 }
 
-gitClone(new URLHandler('https://github.com/monkeytypegame/monkeytype.git'));
-gitClone(new URLHandler('https://github.com/tianayjlin/dummy_repo'));
+// const url = new URLHandler('https://github.com/monkeytypegame/monkeytype.git');
+// const url2 = new URLHandler('https://github.com/tianayjlin/dummy_repo');
+// url.setRepoURL();
+// url2.setRepoURL();
+// gitClone(url));
+// gitClone(url2);
 
