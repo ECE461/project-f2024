@@ -36,3 +36,21 @@
     Coverage: 90%
     9/10 test cases passed. 90% line coverage achieved.
     ```
+## Scoring:
+All scores will be between 0 and 1 (inclusive), a higher score corresponds to a better implementation of the metric within a repository.
+### Bus Factor
+### Correctness
+### License
+### Metric
+### Ramp Up
+* High score indicates low ramp up time required
+* Measured by ratio of documentation to code
+* Target ratio is smaller for smaller projects as it is assumed that looking through the code itself will be easier as compared to a larger proejct
+### Responsiveness
+### Net Score
+## Structure
+* `src`
+     * `commands`
+     * `metrics`
+     * `test`
+     * `utils`
