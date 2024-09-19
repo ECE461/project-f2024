@@ -48,6 +48,11 @@ All scores will be between 0 and 1 (inclusive), a higher score corresponds to a 
 * Target ratio is smaller for smaller projects as it is assumed that looking through the code itself will be easier as compared to a larger project
 ### Responsiveness
 ### Net Score
+## External Dependencies:
+* axios
+* isomorphic-git
+* path
+* fs
 ## Structure
 * `src`
      * `commands`
