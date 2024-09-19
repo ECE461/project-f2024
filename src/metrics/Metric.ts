@@ -16,7 +16,7 @@ export abstract class Metric {
         this.start = 0;
     }
 
-    abstract calculateScore(): void; 
+    abstract calculateScore(): Promise<void>; 
 
     getScore(): number {
         return this.score;
@@ -44,4 +44,5 @@ export abstract class Metric {
     public endTimer(): void {
         this.latency = Date.now() - this.start;
     }
+
 }
