@@ -8,7 +8,8 @@ export class BusFactor extends Metric {
         super(url);
     }
 
-    calculateScore(): void {
+    async calculateScore(): Promise<void> {
+
         this.startTimer();
         
         //checks existence of cloned repository
@@ -20,5 +21,6 @@ export class BusFactor extends Metric {
 
         // End timer for latency
         this.endTimer();
+
     }
 }
