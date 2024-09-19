@@ -38,15 +38,18 @@
     ```
 ## Scoring:
 All scores will be between 0 and 1 (inclusive), a higher score corresponds to a better implementation of the metric within a repository.
-### Bus Factor
+### Bus Factor: the minimum number of team numbers that have to be hit by a bus for the project to go down
+Calculated using the format:
+`ContributionScore = 1 - 0.5 * (lines_changed_by_largest_contributor / total_lines_changed) - 0.5 * (commits_by_largest_contributor / total_commits)`
+Relies on GithubAPI because cloning with depth1 prevents access to archival values.
 ### Correctness
 ### License
-### Metric
 ### Ramp Up
 * High score indicates low ramp up time required
 * Measured by ratio of documentation to code
 * Target ratio is smaller for smaller projects as it is assumed that looking through the code itself will be easier as compared to a larger project
 ### Responsiveness
+### Metric
 ### Net Score
 ## External Dependencies:
 * axios
