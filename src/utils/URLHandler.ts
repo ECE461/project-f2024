@@ -51,7 +51,6 @@ export class URLHandler {
   
   public getRepoName(): string{
     const match = this.url.match(/\/([^\/]+?)(?:\.git)?$/);
-    console.log(match);
     if (match && match.length > 1) {
       return match[1];
     }
