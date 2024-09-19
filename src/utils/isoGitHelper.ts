@@ -26,7 +26,7 @@ export function folderExists(path: string){
  * @method gitClone: uses isomorphic-git to clone remote repositories. you can find the cloned respositories under 
  *                   project-f2024/cloned_repos/{repository-name}
  * @param {string} url: link to github repositor
- * @param {string} filename Argument two enz.
+ * @param {string} filename 
  */
 export async function gitClone(url: URLHandler){
 
@@ -43,7 +43,7 @@ export async function gitClone(url: URLHandler){
     
     try{
         await git.clone({fs, http, dir: cloned_folder, url: url.url, singleBranch: true, depth: 1})
-        console.log('successful git clone');
+        console.log('successfully git cloned ', url.getRepoName());
     }
     catch(Error){
         console.error('unsuccessful git clone', Error)
@@ -52,4 +52,5 @@ export async function gitClone(url: URLHandler){
 }
 
 gitClone(new URLHandler('https://github.com/monkeytypegame/monkeytype.git'));
+gitClone(new URLHandler('https://github.com/tianayjlin/dummy_repo'));
 

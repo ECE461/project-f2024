@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run clean && tsc -b",
-    "clone": "npm run build && node dist/utils/gitClone.js",
+    "clone": "npm run build && node dist/utils/isoGitHelper.js",
     "test": "jest",
-    "clean": "shx rm -rf dist && rm -rf cloned repos"
+    "clean": "shx rm -rf dist && rm -rf cloned_repos"
   },
   "keywords": [],
   "author": "",
