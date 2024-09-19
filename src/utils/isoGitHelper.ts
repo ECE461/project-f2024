@@ -5,6 +5,7 @@ import * as http from 'isomorphic-git/http/node'; //http requests
 import * as path from 'path';
 
 import { URLHandler } from './URLHandler';
+import { Logger } from '../logUtils';
 
 /**
  * Stuff with  more arguments.
@@ -46,7 +47,8 @@ export async function gitClone(url: URLHandler){
         console.log('successfully git cloned ', url.getRepoName());
     }
     catch(Error){
-        console.error('unsuccessful git clone', Error)
+        console.error('unsuccessful git clone'); 
+        Logger.logDebug(Error);
     }
 
 }
