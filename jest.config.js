@@ -1,8 +1,9 @@
 module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'node',
-    testMatch: ['/**/test/**/*.test.ts'],
+    testMatch: ['/**/src/test/**/*.test.ts'],
     collectCoverage: true,
     collectCoverageFrom: ['src/**/*.ts', 'run'],
-    coverageReporters: ['json']
+    coverageReporters: ['json'],
+    coveragePathIgnorePatterns: ['src/commands/test.ts']
   };

@@ -23,11 +23,13 @@ export class URLFileHandler {
                         urlItems.push(URL);
                     }
                     else {
-                        // If URL is invalid, not github/npm, or github URL not found from npm URL -> return null
+                        // If URL is invalid bc not github/npm, or github URL not found from npm URL -> return null
+                        Logger.logDebug('Not a github/npm URL: ' + url);
                         return null;
                     }
                 }
                 else {
+                    Logger.logDebug('Invalid URL: ' + url);
                     return null;
                 }
             }
