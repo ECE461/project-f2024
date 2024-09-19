@@ -7,18 +7,18 @@ export async function runTests() {
     exec('npx jest --json --coverage', (err, stdout, stderr) => {
         if (err) {
           Logger.logInfo('Error running tests:' + stderr);
-          throw new Error('Error running jest tests');
+          // throw new Error('Error running jest tests');
         }
 
         // Parse Jest results
         const results = JSON.parse(stdout);
         const total = results.numTotalTests;
         const passed = results.numPassedTests;
-        const coverageMapp = createCoverageMap(results.coverageMap);
+        const coverageMap = createCoverageMap(results.coverageMap);
         let totalLines = 0;
         let coveredLines = 0;
-        coverageMapp.files().forEach((filePath) => {
-          const fileCoverage = coverageMapp.fileCoverageFor(filePath);
+        coverageMap.files().forEach((filePath) => {
+          const fileCoverage = coverageMap.fileCoverageFor(filePath);
           const { lines } = fileCoverage.toSummary();
           
           totalLines += lines.total;
