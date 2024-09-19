@@ -78,12 +78,12 @@ export class RampUp extends Metric {
                 // for smaller projects
                 if(total_code_size < 10000)
                 {
-                    this.score = (ramp_up_ratio > 1) ? 1 : ramp_up_ratio * 5;
+                    this.score = (ramp_up_ratio * 5 > 1) ? 1 : ramp_up_ratio * 5;
                     // if 1 line of documentation per 5 lines of code, score is ~1
                 }
                 else
                 {
-                    this.score =  (ramp_up_ratio > 1) ? 1 : ramp_up_ratio * 1.5;
+                    this.score =  (ramp_up_ratio * 1.5 > 1) ? 1 : ramp_up_ratio * 1.5;
                     // if 2 lines of documentation per 3 lines of code, score is ~1
                     // this is higher because larger projects should have more documentation and examples (many lines)
                 }
