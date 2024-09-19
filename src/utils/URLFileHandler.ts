@@ -3,10 +3,22 @@ import { URLHandler } from './URLHandler';
 import { Logger } from '../logUtils';
 
 export class URLFileHandler {
+    /**
+     * @static 
+     * @function isTxtFile(): is the file containing all the urls all txt files?
+     * @param {string} filePath: absolute path to the file
+     * @returns {boolean}
+     */
     public static isTxtFile(filePath: string): boolean {
         return filePath.endsWith('.txt');
     }
 
+    /**
+     * @static @async
+     * @function getGithubUrlsFromFile(): reads url from txt file. gets rid of white space and extra '\n's 
+     * @param {string} filepath: absolute path to the file
+     * @returns {Promise<URLHandler[] | null>}: returns array of all existing urls or null, if file is empty
+     */
     public static async getGithubUrlsFromFile(filePath: string): Promise<URLHandler[] | null> {
         try {
             const data = await fs.readFile(filePath, 'utf-8');
