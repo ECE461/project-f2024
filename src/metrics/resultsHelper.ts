@@ -18,7 +18,7 @@ function roundNumbersInObject(obj: any): any {
 }
 
 export function createNDJsonResult(netScore: NetScore, metrics: Metric[]) : string {
-    let result = { URL: metrics[0].getURL() };
+    let result = { URL: metrics[0].getURLHandler().getURL()};
     Object.assign(result, netScore.getJsonObject());
 
     metrics.forEach(metric => {

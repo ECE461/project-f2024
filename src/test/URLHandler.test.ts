@@ -1,4 +1,4 @@
-import { URLHandler } from '../urlUtils/URLHandler';
+import { URLHandler } from '../utils/URLHandler';
 import axios from 'axios';
 
 jest.mock('axios');
@@ -94,7 +94,7 @@ describe('URLHandler', () => {
 
         it('should set the repository URL for an npm URL', async () => {
             urlHandler = new URLHandler('https://www.npmjs.com/package/express');
-            expect(await urlHandler.getRepoURL()).toBe(null);
+            expect(await urlHandler.getRepoURL()).toBe("");
             await urlHandler.setRepoURL();
             expect(await urlHandler.getRepoURL()).toBe('https://www.github.com/expressjs/express');
         });
@@ -108,13 +108,13 @@ describe('URLHandler', () => {
         it('should not set the repository URL for an invalid URL', async () => {
             urlHandler = new URLHandler('invalid-url');
             await urlHandler.setRepoURL();
-            expect(await urlHandler.getRepoURL()).toBe(null);
+            expect(await urlHandler.getRepoURL()).toBe("");
         });
 
         it('should not set the repository URL for a non-github/npm URL', async () => {
             urlHandler = new URLHandler('https://www.google.com');
             await urlHandler.setRepoURL();
-            expect(await urlHandler.getRepoURL()).toBe(null);
+            expect(await urlHandler.getRepoURL()).toBe("");
         });
     });
 

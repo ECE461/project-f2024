@@ -27,8 +27,10 @@ async function main() {
 
   // If no arguments are provided, show usage
   if (args._.length === 0) {
-    console.log(usage);
-    process.exit(1);
+    const error = new Error("No arguments provided to ./run");
+    console.error(error.message);
+    console.error(usage);
+    throw error;
   }
 
   const argument = args._[0];
@@ -36,21 +38,22 @@ async function main() {
   if (argument === 'test') {
     Logger.logDebug('Running tests...');
     console.log("Running tests...");
-    runTests();
+    await runTests();
   }
   else if (URLFileHandler.isTxtFile(argument)) {
     // Score modules from URLs listed in file (arument)
     await urlCommand(argument);
   }
   else {
-    console.log(usage);
-    process.exit(1);
+    const error = new Error("Incorrect arguments provided to ./run");
+    console.error(error.message);
+    console.error(usage);
+    throw error;
   }
 
-  process.exit(0);
 }
 
 main().catch(error => {
-  Logger.logDebug('Error:'+ error);
+  Logger.logDebug(error);
   process.exit(1);
 });

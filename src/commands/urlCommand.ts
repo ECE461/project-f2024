@@ -16,7 +16,8 @@ export async function urlCommand (argument:string) {
     // If null, failed check for file or invalid URLs
     if (urls === null) {
       Logger.logInfo('Error reading file or invalid URLs');
-      process.exit(1)
+      console.error('Error reading file or invalid URLs');
+      throw new Error('Error reading file or invalid URLs');
     }
     
     // TODO: Maybe make this parallel?
@@ -44,5 +45,4 @@ export async function urlCommand (argument:string) {
       // Final Output
       console.log(ndjsonResult);
     }
-    process.exit(0);
 } 

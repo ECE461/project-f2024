@@ -24,13 +24,15 @@ log() {
 
 # "install" command must be ran in bash because running js files requires "npm install" to be ran first
 if [ "$1" == "install" ]; then
-    npm install
+    npm install --silent
     STATUS=$?
 
     if [ $STATUS -eq 0 ]; then
+        echo "Dependencies installed successfully"
         log $LL_INFO "Dependencies installed successfully"
     else
-        log $LL_INFO "Error: npm install failed with exit code $STATUS"
+        echo "Error: ./run install failed with exit code $STATUS" >&2
+        log $LL_INFO "Error: ./run install failed with exit code $STATUS"
     fi
 
     # Exit with 0 if npm install was successful, otherwise exit with the error code
@@ -44,4 +46,7 @@ else
 
     # run.js handles "test" and "<url_file>" commands
     node dist/run.js "$@"
+    STATUS=$?
+
+    exit $STATUS
 fi
