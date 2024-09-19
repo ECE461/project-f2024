@@ -22,7 +22,7 @@ export abstract class Metric {
         return this.score;
     }
 
-    getURL(): URLHandler {
+    public getURLHandler(): URLHandler {
         return this.url;
     }
 

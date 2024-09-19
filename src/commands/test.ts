@@ -7,7 +7,6 @@ export async function runTests() {
     exec('npx jest --json --coverage', (err, stdout, stderr) => {
         if (err) {
           Logger.logInfo('Error running tests:' + stderr);
-          // throw new Error('Error running jest tests');
         }
 
         // Parse Jest results

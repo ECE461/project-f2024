@@ -5,7 +5,7 @@ const execPromise = promisify(exec);
 
 describe('Run install script', () => {
   describe('Run install valid', () => {
-    it('should print "found 0 vulnerabilities" and "Dependencies installed successfully"', async () => {
+    it('should print "Dependencies installed successfully"', async () => {
       // Run the command
       const { stdout: stdout, stderr:stderr } = await execPromise('./run install');
       
