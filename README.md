@@ -36,12 +36,10 @@
     Coverage: 90%
     9/10 test cases passed. 90% line coverage achieved.
     ```
-## Scoring:
+## Scoring
 All scores will be between 0 and 1 (inclusive), a higher score corresponds to a better implementation of the metric within a repository.
-### Bus Factor: the minimum number of team numbers that have to be hit by a bus for the project to go down
-Calculated using the format:
-`ContributionScore = 1 - 0.5 * (lines_changed_by_largest_contributor / total_lines_changed) - 0.5 * (commits_by_largest_contributor / total_commits)`
-Relies on GithubAPI because cloning with depth1 prevents access to archival values.
+### Bus Factor
+   Bus factor is defined by "the minimum number of team members that have to suddenly disappear from a project before the project stalls due to lack of knowledgeable or competent personnel" (Source: Wikipedia).
 ### Correctness
 ### License
 ### Ramp Up
@@ -51,7 +49,7 @@ Relies on GithubAPI because cloning with depth1 prevents access to archival valu
 ### Responsiveness
 ### Metric
 ### Net Score
-## External Dependencies:
+## External Dependencies
 * axios
 * isomorphic-git
 * path
