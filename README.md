@@ -45,7 +45,7 @@ All scores will be between 0 and 1 (inclusive), a higher score corresponds to a 
 ### Ramp Up
 * High score indicates low ramp up time required
 * Measured by ratio of documentation to code
-* Target ratio is smaller for smaller projects as it is assumed that looking through the code itself will be easier as compared to a larger proejct
+* Target ratio is smaller for smaller projects as it is assumed that looking through the code itself will be easier as compared to a larger project
 ### Responsiveness
 ### Net Score
 ## Structure
