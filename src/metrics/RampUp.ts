@@ -3,6 +3,7 @@ import { URLHandler } from '../utils/URLHandler';
 import axios from 'axios';
 import { Logger } from '../logUtils';
 
+
 /**
  * @class RampUp
  * @description 
@@ -51,7 +52,7 @@ export class RampUp extends Metric {
      */
     async calculateScore(): Promise<void> {
         this.startTimer();  // Start timer for latency
-
+      
         let apiEndpoint = `${this.url.getBaseAPI()}/contents`;   // Get the base API endpoint for files
 
         // Make API calls to get the file information
@@ -106,7 +107,7 @@ export class RampUp extends Metric {
 
             // ensure that the total code size is not 0 to avoid division by 0
             if(total_documentation_size === 0) {
-                this.score = 0;
+                this.score = -1;
             }
             else {
                 const ramp_up_ratio = (total_documentation_size / total_code_size);
@@ -126,10 +127,16 @@ export class RampUp extends Metric {
             }
 
         } catch (error) {
-            Logger.logDebug('Ramp up: Error getting repository files and sizes:' + error);
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.status === 401) {
+                    console.error("Invalid or expired Github token");
+                }
+            }
+            Logger.logInfo('Ramp up: Error getting repository files and sizes');
+            Logger.logDebug(error);
             this.score = -1;
         }
- 
+
         // End timer for latency
         this.endTimer();
     }
@@ -167,7 +174,8 @@ export class RampUp extends Metric {
             return total_code_size;
 
         } catch (error) {
-            Logger.logDebug('Ramp up: Error getting repository files and sizes:' + error);
+            Logger.logInfo('Ramp up: Error getting repository files and sizes');
+            Logger.logDebug(error);
             return 0;
         }
     }
