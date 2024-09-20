@@ -14,7 +14,7 @@ export class RampUp extends Metric {
         // Start timer for latency
         this.startTimer();
 
-        // Convert the base url to an API url
+        // Convert the base url to an API url 
         const apiBase = "https://api.github.com/repos";
         const urlParts = this.url.getRepoURL().split('github.com/')[1].split('/');
         const owner = urlParts[0];

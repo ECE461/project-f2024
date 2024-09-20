@@ -10,9 +10,13 @@ export class BusFactor extends Metric {
 
     async calculateScore(): Promise<void> {
 
+        //start timer 
         this.startTimer();
         
-        //checks existence of cloned repository
+        //stats/contributors endpoint to obtain commits by the 
+
+
+
 
 
 

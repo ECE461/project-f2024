@@ -42,7 +42,7 @@ export async function gitClone(url: URLHandler){
     const cloned_folder = path.join(repo_folder + "/", url.getRepoName()); 
     folderExists(cloned_folder);
     
-    try{
+    try{    
         await git.clone({fs, http, dir: cloned_folder, url: url.url, singleBranch: true, depth: 1})
         console.log('successfully git cloned ', url.getRepoName());
     }
