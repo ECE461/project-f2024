@@ -4,7 +4,7 @@ import { createCoverageMap } from 'istanbul-lib-coverage';
 
 export async function runTests() {
   try {
-    exec('npx jest --json --coverage', (err, stdout, stderr) => {
+    exec('npx jest --json --coverage --silent', (err, stdout, stderr) => {
         if (err) {
           Logger.logInfo('Error running tests:' + stderr);
         }
@@ -32,6 +32,7 @@ export async function runTests() {
         console.log(`${passed}/${total} test cases passed. ${averageCoverage.toFixed(2)}% line coverage achieved.`);
     });
   } catch (error) {
-    Logger.logInfo(`${error}`);
+    Logger.logInfo("Error while running runTests()")
+    Logger.logDebug(`${error}`);
   }
 }

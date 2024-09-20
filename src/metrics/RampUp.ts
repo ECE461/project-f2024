@@ -1,6 +1,7 @@
 import {Metric} from './Metric';
 import { URLHandler } from '../utils/URLHandler';
 import axios from 'axios';
+import { Logger } from '../logUtils';
 
 export class RampUp extends Metric {
     jsonKey: string = "RampUp";
@@ -90,7 +91,8 @@ export class RampUp extends Metric {
             }
 
         } catch (error) {
-            console.error('Error getting repo files and sizes:', error);
+            console.error('Error getting repo files and sizes');
+            Logger.logDebug(error);
             this.score = 0;
         }
  
@@ -121,7 +123,9 @@ export class RampUp extends Metric {
             return total_code_size;
 
         } catch (error) {
-            console.error('Error getting repo files and sizes:', error);
+            Logger.logInfo('Error getting repo files and sizes');
+            Logger.logDebug(error);
+
             return 0;
         }
     }
