@@ -118,7 +118,7 @@ export class URLHandler {
         const urlParts = this.githubURL.split('github.com/')[1].split('/');  // divide the github URL into parts
         const repoAuthority = urlParts[0];  // can be either the owner or the organization of the repo
         const repoName = urlParts[1];  // name of the repository
-        this.baseAPI = `https://api.github.com/repos/${repoAuthority}/${repoName}`;  // base API URL
+        this.baseAPI = `https://api.github.com/repos/${encodeURIComponent(repoAuthority)}/${encodeURIComponent(repoName)}`;  // base API URL
       }
     }
   }
