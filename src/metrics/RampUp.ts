@@ -21,7 +21,6 @@ export class RampUp extends Metric {
         const owner = urlParts[0];
         const repo = urlParts[1];
         let apiEndpoint = `${apiBase}/${owner}/${repo}/contents`;
-
         // Make API calls to get the file information
         try {
             const response = await axios.get(apiEndpoint, {headers: {'Authorization': `token ${process.env.GITHUB_TOKEN}`}});
@@ -71,7 +70,7 @@ export class RampUp extends Metric {
 
 
             if(total_documentation_size === 0) {
-                this.score = 0;
+                this.score = -1;
             }
             else {
                 const ramp_up_ratio = (total_documentation_size / total_code_size);
@@ -91,11 +90,19 @@ export class RampUp extends Metric {
             }
 
         } catch (error) {
-            console.error('Error getting repo files and sizes');
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.status === 401) {
+                    console.error("Invalid or expired Github token");
+                }
+                else {
+                    console.error('An error occured: ', error.message);
+                }
+            }
+            Logger.logDebug('Error getting repository files and sizes');
             Logger.logDebug(error);
-            this.score = 0;
+            this.score = -1;
         }
- 
+
         // End timer for latency
         this.endTimer();
     }
