@@ -47,6 +47,8 @@ import { Logger } from '../logUtils';
  * @method static checkUrlExists(url: string): Promise<boolean>
  * Checks if the provided URL exists by making a HEAD request.
  * 
+ * @method static convertGithubURLToHttps(url: string): string
+ * 
  * @method static getGithubURLFromNpmURL(url: string): Promise<string | null>
  * Extracts and returns the GitHub repository URL from an npm package URL.
  */
@@ -172,6 +174,25 @@ export class URLHandler {
       return false;
     }
   }
+  
+  /**
+   * @method staticGithubURLToHttps
+   * @param {string} url - The URL to be converted
+   * @return {Promise<boolean>} The https formatted version of the URL.
+   * @description
+   * This static method converts the provided GitHub URL to an https formatted URL.
+   */
+public static convertGithubURLToHttps(url: string): string {
+  let httpsUrl = url.replace(/^git\+/, '').replace(/\.git$/, '');
+
+  if (httpsUrl.startsWith('git://')) {
+    httpsUrl = httpsUrl.replace('git://', 'https://');
+  } else if (httpsUrl.startsWith('git@')) {
+    httpsUrl = httpsUrl.replace('git@', 'https://').replace(':', '/');
+  }
+
+  return httpsUrl;
+}
 
   /**
    * @method getGithubURLFromNpmURL
@@ -181,17 +202,35 @@ export class URLHandler {
    * This static method extracts and returns the GitHub repository URL from an npm package URL.
    * If the GitHub repository URL cannot be found, it returns null.
    */
-  public static async getGithubURLFromNpmURL(url: string): Promise<string | null> {
-    try {
-        const response = await axios.get(url);  // get the HTML content of the npm package URL
-        const html = response.data;
-        const githubURL = html.match(/https:\/\/github.com\/[\w-]+\/[\w-]+/);  // extract the GitHub URL from the HTML content
-        if (githubURL) {
-            return githubURL[0];  // return the GitHub URL
-        }
-    } catch (error) {
-        Logger.logDebug('Error getting github URL from npm package:' + error);
-    }
-    return null;
+public static async getGithubURLFromNpmURL(url: string): Promise<string | null> {
+  // Get github repository URL from npm package URL
+  try {
+      // Extract package name from npm URL
+      const regex = /\/package\/([^\/]+)/;
+      const match = url.match(regex);
+      const packageName = match ? match[1] : '';
+
+      // Check package.json of npmjs package from registry.npmjs.org
+      const response = await axios.get(`https://registry.npmjs.org/${packageName}`);
+      
+      // Check that repository is a git repository
+      if (response.data.repository?.type !== 'git') {
+        return null;
+      }
+
+      // Convert git repository URL to https format
+      const githubURL = URLHandler.convertGithubURLToHttps(response.data.repository?.url || "");
+      
+      // Return null if no github URL found
+      if (githubURL == "") {
+        return null;
+      }
+
+      return githubURL;
+  } catch (error) {
+      Logger.logInfo('Error getting github URL from npm package');
+      Logger.logDebug(error);
   }
+  return null;
+}
 }

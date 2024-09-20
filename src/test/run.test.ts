@@ -66,7 +66,7 @@ describe('Test run.ts main', () => {
         catch (error: any) {
           expect(null).not.toBeFalsy() // fail() shouldn't reach this line
         }      
-      });
+      }, 10000);
   });
   
 });
