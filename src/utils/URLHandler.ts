@@ -1,27 +1,69 @@
 import axios from 'axios';
-import { promises as fs } from 'fs';
 import { Logger } from '../logUtils';
 
 /**
- * Class for URLs
- * 
- * @method isValid
- * Returns if URL is valid
- * 
- * @method getRepoURL
- * Returns the github repository URL
- * For npm URLs, returns github repository URL if available, else returns null
- * If URL in invalid or not github/npm, returns null
+ * @class URLHandler
+ * @description 
+ * The URLHandler class is responsible for handling URL-related operations,
+ * such as validating URLs, checking if a URL exists, extracting GitHub repository
+ * URLs from npm package URLs, and constructing base API URLs for GitHub repositories.
  *
+ * This class provides methods to interact with URLs and perform various operations
+ * like setting repository URLs, getting base API URLs, and extracting repository names.
+ *
+ * @example
+ * // Creating an instance of URLHandler
+ * const urlHandler = new URLHandler('https://github.com/user/repo');
+ * 
+ * // Setting the repository URL
+ * await urlHandler.setRepoURL();
+ * 
+ * // Getting the repository URL
+ * const repoURL = urlHandler.getRepoURL();
+ * 
+ * // Getting the base API URL
+ * const baseAPI = urlHandler.getBaseAPI();
+ *
+ * @param {string} url - The URL to be handled.
+ *
+ * @method getRepoURL(): string
+ * Returns the GitHub repository URL if set, otherwise an empty string.
+ *
+ * @method getBaseAPI(): string
+ * Returns the base API URL for the GitHub repository if set, otherwise an empty string.
+ * 
+ * @method getURL(): string
+ * Returns the original URL.
+ * 
+ * @method setRepoURL(): Promise<void>
+ * Sets the GitHub repository URL and base API URL if the original URL is valid and exists.
+ * 
+ * @method getRepoName(): string
+ * Extracts and returns the repository name from the URL.
+ * 
+ * @method static isValidURL(url: string): boolean
+ * Checks if the provided URL is valid.
+ * 
+ * @method static checkUrlExists(url: string): Promise<boolean>
+ * Checks if the provided URL exists by making a HEAD request.
+ * 
+ * @method static getGithubURLFromNpmURL(url: string): Promise<string | null>
+ * Extracts and returns the GitHub repository URL from an npm package URL.
  */
-
 export class URLHandler {
-  url: string;
-  githubURL: string | null = null;
+  url: string; // the provided URL
+  githubURL: string | null = null; // the GitHub repository URL
+  baseAPI: string | null = null;  // the base API URL
   constructor(url: string) {
     this.url = url;
   }
 
+  /**
+   * @method getRepoURL
+   * @return {string} The GitHub repository URL if set, otherwise an empty string.
+   * @description
+   * This method returns the GitHub repository URL if set, otherwise an empty string.
+   */
   public getRepoURL(): string {
     if (this.githubURL === null) {
       return "";
@@ -29,26 +71,65 @@ export class URLHandler {
     return this.githubURL;
   }
 
+  /**
+   * @method getBaseAPI
+   * @return {string} The base API URL for the GitHub repository if set, otherwise an empty string.
+   * @description
+   * This method returns the base API URL for the GitHub repository if set, otherwise an empty string.
+   */
+  public getBaseAPI(): string {
+    if (this.baseAPI === null) {
+      return "";
+    }
+    return this.baseAPI;
+  }
+
+  /**
+   * @method getURL
+   * @return {string} The original URL.
+   * @description
+   * This method returns the original URL.
+   */
   public getURL(): string {
     return this.url;
   }
 
+  /**
+   * @method setRepoURL
+   * @return {Promise<void>}
+   * @description
+   * This method sets the GitHub repository URL and base API URL if the original URL is valid and exists.
+   */
   public async setRepoURL(): Promise<void> {
     if (URLHandler.isValidURL(this.url)) {
-      const exists = await URLHandler.checkUrlExists(this.url);
+      const exists = await URLHandler.checkUrlExists(this.url);  // check URL is valid and exists
       if (!exists) {
         return
       }
 
-      if (this.url.startsWith('https://www.npmjs.com/package/')) {
+      if (this.url.startsWith('https://www.npmjs.com/package/')) {  // convert npm URL to github URL
         this.githubURL = await URLHandler.getGithubURLFromNpmURL(this.url);
       }
-      else if (this.url.startsWith('https://github.com/')) {
+      else if (this.url.startsWith('https://github.com/')) {  // set github URL directly
         this.githubURL = this.url;
+      }
+
+      if(this.githubURL !== null) {  // set base API URL if github URL is set
+        const urlParts = this.githubURL.split('github.com/')[1].split('/');  // divide the github URL into parts
+        const repoAuthority = urlParts[0];  // can be either the owner or the organization of the repo
+        const repoName = urlParts[1];  // name of the repository
+        this.baseAPI = `https://api.github.com/repos/${encodeURIComponent(repoAuthority)}/${encodeURIComponent(repoName)}`;  // base API URL
       }
     }
   }
   
+  /**
+   * @method getRepoName
+   * @return {string} The repository name extracted from the URL.
+   * @description
+   * This method extracts and returns the repository name from the URL.
+   * If the URL does not contain a repository name, it returns an empty string.
+   */
   public getRepoName(): string{
     const match = this.url.match(/\/([^\/]+?)(?:\.git)?$/);
     if (match && match.length > 1) {
@@ -58,8 +139,14 @@ export class URLHandler {
     return "";
   }
 
+  /**
+   * @method isValidURL
+   * @param {string} url - The URL to be validated.
+   * @return {boolean} True if the URL is valid, otherwise false.
+   * @description
+   * This static method checks if the provided URL is valid.
+   */
   public static isValidURL(url: string): boolean {
-    // Check if URL is valid
     try {
         new URL(url);
         return true;
@@ -69,6 +156,13 @@ export class URLHandler {
     }
   }
 
+  /**
+   * @method checkUrlExists
+   * @param {string} url - The URL to be checked.
+   * @return {Promise<boolean>} True if the URL exists, otherwise false.
+   * @description
+   * This static method checks if the provided URL exists by making a HEAD request.
+   */
   public static async checkUrlExists(url: string): Promise<boolean> {
     try {
       const response = await fetch(url, { method: 'HEAD' });
@@ -79,14 +173,21 @@ export class URLHandler {
     }
   }
 
+  /**
+   * @method getGithubURLFromNpmURL
+   * @param {string} url - The npm package URL.
+   * @return {Promise<string | null>} The GitHub repository URL if found, otherwise null.
+   * @description
+   * This static method extracts and returns the GitHub repository URL from an npm package URL.
+   * If the GitHub repository URL cannot be found, it returns null.
+   */
   public static async getGithubURLFromNpmURL(url: string): Promise<string | null> {
-    // Get github repository URL from npm package URL
     try {
-        const response = await axios.get(url);
+        const response = await axios.get(url);  // get the HTML content of the npm package URL
         const html = response.data;
-        const githubURL = html.match(/https:\/\/github.com\/[\w-]+\/[\w-]+/);
+        const githubURL = html.match(/https:\/\/github.com\/[\w-]+\/[\w-]+/);  // extract the GitHub URL from the HTML content
         if (githubURL) {
-            return githubURL[0];
+            return githubURL[0];  // return the GitHub URL
         }
     } catch (error) {
         Logger.logDebug('Error getting github URL from npm package:' + error);

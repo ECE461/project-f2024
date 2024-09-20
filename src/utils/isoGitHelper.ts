@@ -52,11 +52,3 @@ export async function gitClone(url: URLHandler){
     }
 
 }
-
-// const url = new URLHandler('https://github.com/monkeytypegame/monkeytype.git');
-// const url2 = new URLHandler('https://github.com/tianayjlin/dummy_repo');
-// await url.setRepoURL();
-// await url2.setRepoURL();
-// gitClone(url));
-// gitClone(url2);
-
