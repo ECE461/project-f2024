@@ -47,28 +47,6 @@ describe('urlCommand', () => {
             expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching("Error reading file or file has invalid URLs"));
         });
     });
-    describe('No Github token with urlCommand', () => {
-        const tempToken = process.env.GITHUB_TOKEN;
-        const execPromise = promisify(exec);
-
-        beforeEach(() => {
-            delete process.env.GITHUB_TOKEN;
-        });
-        afterEach(() => {
-            process.env.GITHUB_TOKEN = tempToken;
-            if (consoleErrorSpy) {
-                consoleErrorSpy.mockRestore()
-            }   
-        });
-        it('should print Please set the GITHUB_TOKEN environment variable', async () => {  
-            consoleErrorSpy = jest.spyOn(console, 'error');  
-
-            await expect(urlCommand('test1.txt')).rejects.toThrow('Please set the GITHUB_TOKEN environment variable');
-
-            // Check if stdout contains the expected results
-            expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching('Please set the GITHUB_TOKEN environment variable'));
-        });
-    });
     describe('urlCommand - Fail to delete cloned repos', () => {
         const execPromise = promisify(exec);
         const clonedReposPath = path.join(__dirname, '../../cloned_repos');

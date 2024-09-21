@@ -1,10 +1,10 @@
 import minimist from 'minimist';
 import { URLFileHandler } from './utils/URLFileHandler';
 import { Logger } from './logUtils';
-import { log } from 'console';
 import { runTests } from './commands/test';
 import {urlCommand} from './commands/urlCommand';
-import { url } from 'inspector';
+import { checkGithubToken } from './utils/helper';
+
 
 const usage = `
 Usage: ./run [command]
@@ -35,19 +35,15 @@ async function main() {
 
   const argument = args._[0];
 
+  await checkGithubToken();
+
   if (argument === 'test') {
     Logger.logDebug('Running tests...');
     await runTests();
   }
-  else if (URLFileHandler.isTxtFile(argument)) {
+  else {
     // Score modules from URLs listed in file (arument)
     await urlCommand(argument);
-  }
-  else {
-    const error = new Error('Incorrect arguments provided to ./run');
-    console.error(error.message);
-    console.error(usage);
-    throw error;
   }
 
 }
