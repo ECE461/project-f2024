@@ -1,8 +1,7 @@
 import {Metric} from './Metric';
 import { URLHandler } from '../utils/URLHandler';
 import axios from 'axios';
-import dotenv from 'dotenv';
-dotenv.config();
+
 
 /**
  * @class Correctness
