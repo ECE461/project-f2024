@@ -35,12 +35,9 @@ This repository is an implementation of a command line tool used to score npm an
 1. Install Dependencies: `./run install` or `npm install`
 2. Build the project (compile js scripts): `npm run build`
 3. Setup environment variables
-    * Location of logs : LOG_FILE
-    * LOG_LEVEL
-        * `0` (default) : silent
-        * `1` : info messages
-        * `2` : debug messages
-    * GITHUB_TOKEN
+    1. LOG_FILE (see [Logging](#Logging) section)
+    2. LOG_LEVEL (see [Logging](#Logging) section)
+    3. GITHUB_TOKEN (required)
     * Sample .env file:
         ```
         # To activate: ". .env"
@@ -73,9 +70,18 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
 * Weights:
     * TODO: fill in
 ## External Dependencies
-* axios:            used for npm Registry and GitHub REST API calls
-* isomorphic-git:   used to shallow clone repositories to get data
-* minimist:         used to parse CLI arguments
+* **axios**: A promise-based HTTP client for making requests to the npm Registry and GitHub REST APIs. It simplifies the process of handling asynchronous requests and managing responses, making it easier to interact with external services.
+* **isomorphic-git**: A JavaScript library that allows for shallow cloning of Git repositories in both browser and Node.js environments.
+* **minimist**: A lightweight module for parsing command-line arguments. It enables easy extraction of arguments from the CLI, allowing for flexible and user-friendly command-line interfaces in your application.
+
+## Logging
+* **LOG_LEVEL**
+    * `0` (default) : Silent
+    * `1` : Only displays information messages
+    * `2` : Diplays information and debug messages
+* **LOG_FILE**: Location of log output
+    * Default is default.log
+
 ## Structure
 * `src`
      * `commands`   Contains functions called for each CL argument
