@@ -24,10 +24,12 @@ export function folderExists(path: string){
 
 /**
  * Stuff with  more arguments.
- * @method gitClone: uses isomorphic-git to clone remote repositories. you can find the cloned respositories under 
- *                   project-f2024/cloned_repos/{repository-name}
+ * @method gitClone()
  * @param {string} url: link to github repositor
  * @param {string} filename 
+ * 
+ * @description: uses isomorphic-git to clone remote repositories. you can find the cloned respositories under 
+ *               project-f2024/cloned_repos/{repository-name}
  */
 export async function gitClone(url: URLHandler){
 
@@ -42,17 +44,20 @@ export async function gitClone(url: URLHandler){
     const cloned_folder = path.join(repo_folder + "/", url.getRepoName()); 
     folderExists(cloned_folder);
     
-    try{    
-        await git.clone({fs, http, dir: cloned_folder, url: url.url, singleBranch: true, depth: 1})
-        console.log('successfully git cloned ', url.getRepoName());
-    try{
-        await git.clone({fs, http, dir: cloned_folder, url: url.getRepoURL(), singleBranch: true, depth: 1})
-        Logger.logInfo('Successfully git cloned ' + url.getRepoName());
-    }
-    catch(Error){
-        console.error('Unsuccessful git clone ', url.getRepoName()); 
-        Logger.logDebug(Error);
-    }
+    // try{    
+    //     await git.clone({fs, http, dir: cloned_folder, url: url.url, singleBranch: true, depth: 1})
+    //     console.log('successfully git cloned ', url.getRepoName());
+    //}
+
+        try{
+            await git.clone({fs, http, dir: cloned_folder, url: url.getRepoURL(), singleBranch: true, depth: 1})
+            Logger.logInfo('Successfully git cloned ' + url.getRepoName());
+        }
+        catch(Error){
+            console.error('Unsuccessful git clone ', url.getRepoName()); 
+            Logger.logDebug(Error);
+        }
+    
 
 }
 
@@ -62,4 +67,3 @@ export async function gitClone(url: URLHandler){
 // url2.setRepoURL();
 // gitClone(url));
 // gitClone(url2);
-

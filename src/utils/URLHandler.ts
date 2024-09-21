@@ -54,12 +54,13 @@ export class URLHandler {
   url: string; // the provided URL
   githubURL: string | null = null; // the GitHub repository URL
   baseAPI: string | null = null;  // the base API URL
+  
   constructor(url: string) {
     this.url = url;
   }
 
   /**
-   * @method getRepoURL
+   * @method getRepoURL 
    * @return {string} The GitHub repository URL if set, otherwise an empty string.
    * @description
    * This method returns the GitHub repository URL if set, otherwise an empty string.
@@ -76,6 +77,8 @@ export class URLHandler {
      * @return {string} The base API URL for the GitHub repository if set, otherwise an empty string.
      * @description
      * This method returns the base API URL for the GitHub repository if set, otherwise an empty string.
+     * Link is `https://api.github.com/repos/${repoAuthority}/${repoName}`, where user can concat relevant api endpoints.
+     * 
      */
   public getBaseAPI(): string {
     if (this.baseAPI === null) {
