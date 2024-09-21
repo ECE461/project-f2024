@@ -22,8 +22,15 @@ export class URLHandler {
     this.url = url;
   }
 
-  public async getRepoURL(): Promise<string | null> {
+  public getRepoURL(): string {
+    if (this.githubURL === null) {
+      return "";
+    }
     return this.githubURL;
+  }
+
+  public getURL(): string {
+    return this.url;
   }
 
   public async setRepoURL(): Promise<void> {
@@ -40,6 +47,15 @@ export class URLHandler {
         this.githubURL = this.url;
       }
     }
+  }
+  
+  public getRepoName(): string{
+    const match = this.url.match(/\/([^\/]+?)(?:\.git)?$/);
+    if (match && match.length > 1) {
+      return match[1];
+    }
+    
+    return "";
   }
 
   public static isValidURL(url: string): boolean {

@@ -40,10 +40,11 @@ export class Logger {
         }
     }
     
-    public static logDebug(message: string) {
+    public static logDebug(message: any) {
         if (logLevel >= LogLevel.DEBUG) {
             try {
-                fs.appendFileSync(logFilePath, message + "\n", 'utf8');
+                const logMessage = (message instanceof Error) ? `${message.message}\n${message.stack}` : message;
+                fs.appendFileSync(logFilePath, logMessage + "\n", 'utf8');
             } catch (error) {
                 console.error('Error writing to log file:', error);
             } 
