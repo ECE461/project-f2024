@@ -1,4 +1,3 @@
-import { URLHandler } from "../utils/URLHandler";
 import { Metric } from "./Metric";
 import { NetScore } from '../metrics/NetScore';
 
@@ -8,9 +7,12 @@ function roundToTwoDecimals(num: number): number {
 
 function roundNumbersInObject(obj: any): any {
     for (const key in obj) {
-        if (typeof obj[key] === 'number') {
+        if (typeof obj[key] === 'number' && key.endsWith('_Latency')) {
+            obj[key] = parseFloat(obj[key].toFixed(3));   
+        } else if (typeof obj[key] === 'number') {
             obj[key] = roundToTwoDecimals(obj[key]);
-        } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+        }
+        else if (typeof obj[key] === 'object' && obj[key] !== null) {
             obj[key] = roundNumbersInObject(obj[key]);
         }
     }
@@ -26,5 +28,5 @@ export function createNDJsonResult(netScore: NetScore, metrics: Metric[]) : stri
     });
 
     result = roundNumbersInObject(result);
-    return JSON.stringify(result) + '\n';
+    return JSON.stringify(result);
 }

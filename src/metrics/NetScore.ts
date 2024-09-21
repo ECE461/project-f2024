@@ -22,7 +22,7 @@ export class NetScore{
     }
 
     public endTimer(): void {
-        this.latency = Date.now() - this.start;
+        this.latency =  parseFloat(((Date.now() - this.start) / 1000).toFixed(3));
     }
     
     public calculateScore(busFactor: BusFactor, correctness: Correctness, license: License, rampUp: RampUp, respMet: ResponsiveMetric): number {

@@ -14,7 +14,6 @@ describe('./run install', () => {
         throw new Error(`Error: ${stderr}`);
       }
 
-      console.log(stdout);
       // Check if the output contains the expected result
       expect(stdout).toContain('Dependencies installed successfully');
     });
