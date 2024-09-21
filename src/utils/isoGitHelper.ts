@@ -47,7 +47,7 @@ export async function gitClone(url: URLHandler){
         Logger.logInfo('Successfully git cloned ' + url.getRepoName());
     }
     catch(Error){
-        console.error('Unsuccessful git clone ', url.getRepoName()); 
+        Logger.logInfo('Unsuccessful git clone ' + url.getRepoName());
         Logger.logDebug(Error);
     }
 
