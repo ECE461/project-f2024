@@ -1,10 +1,10 @@
 import { template } from '@babel/core';
-import { urlCommand } from '../commands/urlCommand';
+import { urlCommand } from '../../src/commands/urlCommand';
 import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
 import { exec } from 'child_process';
-import { Logger } from '../logUtils';
+import { Logger } from '../../src/logUtils';
 
 describe('urlCommand', () => {
     const tempFilePath = path.join(__dirname, 'test.txt');

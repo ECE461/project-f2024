@@ -54,5 +54,6 @@ async function main() {
 
 main().catch(error => {
   Logger.logDebug(error);
+  console.error(error.message);
   process.exit(1);
 });
