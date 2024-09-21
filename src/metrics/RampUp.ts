@@ -107,7 +107,7 @@ export class RampUp extends Metric {
 
             // ensure that the total code size is not 0 to avoid division by 0
             if(total_documentation_size === 0) {
-                this.score = -1;
+                this.score = 0;
             }
             else {
                 const ramp_up_ratio = (total_documentation_size / total_code_size);

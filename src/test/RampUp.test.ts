@@ -60,7 +60,7 @@ describe('RampUp', () => {
         (axios.get as jest.Mock).mockResolvedValueOnce(mockResponse);
         await rampUp.calculateScore();
 
-        expect(rampUp.getScore()).toBe(-1);
+        expect(rampUp.getScore()).toBe(0);
     });
 
     it('should properly calculate score when no programming files', async () => {
