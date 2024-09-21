@@ -3,37 +3,79 @@ import { URLHandler } from '../utils/URLHandler';
 import axios from 'axios';
 import { Logger } from '../logUtils';
 
+
+/**
+ * @class RampUp
+ * @description 
+ * The RampUp class is responsible for calculating the ramp-up score of a repository.
+ * The ramp-up score is determined based on the ratio of documentation size to code size.
+ * This class extends the Metric class and provides methods to calculate the score by
+ * analyzing the repository's files and folders.
+ *
+ * @example
+ * // Creating an instance of RampUp
+ * const urlHandler = new URLHandler('https://github.com/user/repo');
+ * const rampUp = new RampUp(urlHandler);
+ * 
+ * // Calculating the ramp-up score
+ * await rampUp.calculateScore();
+ *
+ * @param {URLHandler} url - An instance of URLHandler to handle URL-related operations.
+ *
+ * @method calculateScore(): Promise<void>
+ * Calculates the ramp-up score by analyzing the repository's files and folders.
+ * 
+ * @method getRepoProgramFileCounts(baseApiUrl: string, path: string="", currentDepth: number = 0, maxDepth: number = 2): Promise<number>
+ * Recursively calculates the total size of the programming files in the repository up to a specified depth.
+ */
 export class RampUp extends Metric {
     jsonKey: string = "RampUp";
     readonly programming_ext = [".js", ".ts", ".py", ".java", ".cpp", ".c", ".cs", ".rb", ".php"];
 
+    /**
+     * @method getRepoURL
+     * @return {string} The GitHub repository URL if set, otherwise an empty string.
+     * @description
+     * Returns the GitHub repository URL if set, otherwise an empty string.
+     */
     constructor(url: URLHandler) {
         super(url);
     }
 
-    async calculateScore(): Promise<void> {
-        // Start timer for latency
-        this.startTimer();
 
+<<<<<<< HEAD
         // Convert the base url to an API url 
         const apiBase = "https://api.github.com/repos";
         const urlParts = this.url.getRepoURL().split('github.com/')[1].split('/');
         const owner = urlParts[0];
         const repo = urlParts[1];
         let apiEndpoint = `${apiBase}/${owner}/${repo}/contents`;
+=======
+    /**
+     * @method calculateScore
+     * @return {Promise<void>} A promise that resolves when the score calculation is complete.
+     * @description
+     * Calculates the ramp-up score by analyzing the repository's files and folders.
+     * The score is based on the ratio of documentation size to code size.
+     */
+    async calculateScore(): Promise<void> {
+        this.startTimer();  // Start timer for latency
+      
+        let apiEndpoint = `${this.url.getBaseAPI()}/contents`;   // Get the base API endpoint for files
+>>>>>>> 23432e55edc55473f076e233d3942fa5dabe09c6
 
         // Make API calls to get the file information
         try {
             const response = await axios.get(apiEndpoint, {headers: {'Authorization': `token ${process.env.GITHUB_TOKEN}`}});
             
-            const files = response.data;
-            let docs_folder = null;
-            let examples_folder = null;
-            let source_folder = null
+            const files = response.data; // the files in the repository
+            let docs_folder = null;  // name of the documentation folder
+            let examples_folder = null;  // name of the examples folder
+            let source_folder = null; // name of the source code folder
             let total_code_size = 0;
             let total_documentation_size = 0;
 
-            // Get the size of the README and CHANGELOG files and check for docs and examples folders
+            // Get the size of the README and CHANGELOG files and check for docs, examples, or source folders
             files.forEach((file: any) => {
                 if (file.name.toLowerCase() === 'readme.md' || file.name.toLowerCase() === 'changelog.md') {
                     total_documentation_size += file.size;
@@ -52,6 +94,7 @@ export class RampUp extends Metric {
                 }
             });
 
+            // Get the size of the documentation and examples folders
             if(docs_folder) {
                 const documents = await axios.get(`${apiEndpoint}/${docs_folder}`, {headers: {'Authorization': `token ${process.env.GITHUB_TOKEN}`}});
                 documents.data.forEach((doc: any) => {
@@ -64,12 +107,14 @@ export class RampUp extends Metric {
                     total_documentation_size += example.size;
                 });
             }
+            
+            // Get the size of the source code folder
             if(source_folder) {
                 // peform a 2-depth recursive search for source code files
                 total_code_size += await this.getRepoProgramFileCounts(apiEndpoint, source_folder);
             }
 
-
+            // ensure that the total code size is not 0 to avoid division by 0
             if(total_documentation_size === 0) {
                 this.score = 0;
             }
@@ -91,14 +136,30 @@ export class RampUp extends Metric {
             }
 
         } catch (error) {
-            Logger.logDebug('Ramp up: Error getting repository files and sizes:' + error);
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.status === 401) {
+                    console.error("Invalid or expired Github token");
+                }
+            }
+            Logger.logInfo('Ramp up: Error getting repository files and sizes');
+            Logger.logDebug(error);
             this.score = -1;
         }
- 
+
         // End timer for latency
         this.endTimer();
     }
 
+    /**
+     * @method getRepoProgramFileCounts
+     * @param {string} baseApiUrl - The base API URL for the repository.
+     * @param {string} [path=""] - The current path in the repository.
+     * @param {number} [currentDepth=0] - The current depth of the recursive search.
+     * @param {number} [maxDepth=2] - The maximum depth for the recursive search.
+     * @return {Promise<number>} A promise that resolves to the total size of the programming files.
+     * @description
+     * Recursively calculates the total size of the programming files in the repository up to a specified depth.
+     */
     async getRepoProgramFileCounts(baseApiUrl: string, path: string="", currentDepth: number = 0, maxDepth: number = 2): Promise<number> {
         let apiEndpoint = `${baseApiUrl}/${path}`;
         let total_code_size = 0;
@@ -122,7 +183,8 @@ export class RampUp extends Metric {
             return total_code_size;
 
         } catch (error) {
-            Logger.logDebug('Ramp up: Error getting repository files and sizes:' + error);
+            Logger.logInfo('Ramp up: Error getting repository files and sizes');
+            Logger.logDebug(error);
             return 0;
         }
     }

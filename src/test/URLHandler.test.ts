@@ -1,3 +1,4 @@
+import { Logger } from '../logUtils';
 import { URLHandler } from '../utils/URLHandler';
 import axios from 'axios';
 
@@ -121,13 +122,13 @@ describe('URLHandler', () => {
     describe('getGithubURLFromNpmURL', () => {
         beforeEach(() => {
             (axios.get as jest.Mock).mockImplementation(url => {
-                if (url === 'https://www.npmjs.com/package/express') {
+                if (url === 'https://registry.npmjs.org/express') {
                     return Promise.resolve({
-                        data: '<html><body><a href="https://github.com/expressjs/express">GitHub</a></body></html>'
+                        data: {repository: { type: 'git', url: 'git+https://github.com/expressjs/express.git' }}
                     });
-                } else if (url === 'https://www.npmjs.com/package/nonexistent') {
+                } else if (url === 'https://registry.npmjs.org/nonexistent') {
                     return Promise.resolve({
-                        data: '<html><body>No GitHub link here</body></html>'
+                        data: {repository: {}}
                     });
                 }
                 return Promise.reject(new Error('404 Not Found'));

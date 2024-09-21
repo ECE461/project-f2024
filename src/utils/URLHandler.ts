@@ -47,6 +47,8 @@ import { Logger } from '../logUtils';
  * @method static checkUrlExists(url: string): Promise<boolean>
  * Checks if the provided URL exists by making a HEAD request.
  * 
+ * @method static convertGithubURLToHttps(url: string): string
+ * 
  * @method static getGithubURLFromNpmURL(url: string): Promise<string | null>
  * Extracts and returns the GitHub repository URL from an npm package URL.
  */
@@ -72,6 +74,7 @@ export class URLHandler {
     return this.githubURL;
   }
 
+<<<<<<< HEAD
     /**
      * @method getBaseAPI
      * @return {string} The base API URL for the GitHub repository if set, otherwise an empty string.
@@ -80,6 +83,14 @@ export class URLHandler {
      * Link is `https://api.github.com/repos/${repoAuthority}/${repoName}`, where user can concat relevant api endpoints.
      * 
      */
+=======
+  /**
+   * @method getBaseAPI
+   * @return {string} The base API URL for the GitHub repository if set, otherwise an empty string.
+   * @description
+   * This method returns the base API URL for the GitHub repository if set, otherwise an empty string.
+   */
+>>>>>>> 23432e55edc55473f076e233d3942fa5dabe09c6
   public getBaseAPI(): string {
     if (this.baseAPI === null) {
       return "";
@@ -87,33 +98,52 @@ export class URLHandler {
     return this.baseAPI;
   }
 
+  /**
+   * @method getURL
+   * @return {string} The original URL.
+   * @description
+   * This method returns the original URL.
+   */
   public getURL(): string {
     return this.url;
   }
 
+  /**
+   * @method setRepoURL
+   * @return {Promise<void>}
+   * @description
+   * This method sets the GitHub repository URL and base API URL if the original URL is valid and exists.
+   */
   public async setRepoURL(): Promise<void> {
     if (URLHandler.isValidURL(this.url)) {
-      const exists = await URLHandler.checkUrlExists(this.url);
+      const exists = await URLHandler.checkUrlExists(this.url);  // check URL is valid and exists
       if (!exists) {
         return
       }
 
-      if (this.url.startsWith('https://www.npmjs.com/package/')) {
+      if (this.url.startsWith('https://www.npmjs.com/package/')) {  // convert npm URL to github URL
         this.githubURL = await URLHandler.getGithubURLFromNpmURL(this.url);
       }
-      else if (this.url.startsWith('https://github.com/')) {
+      else if (this.url.startsWith('https://github.com/')) {  // set github URL directly
         this.githubURL = this.url;
       }
 
-      if(this.githubURL !== null) {
+      if(this.githubURL !== null) {  // set base API URL if github URL is set
         const urlParts = this.githubURL.split('github.com/')[1].split('/');  // divide the github URL into parts
         const repoAuthority = urlParts[0];  // can be either the owner or the organization of the repo
         const repoName = urlParts[1];  // name of the repository
-        this.baseAPI = `https://api.github.com/repos/${repoAuthority}/${repoName}`;  // base API URL
+        this.baseAPI = `https://api.github.com/repos/${encodeURIComponent(repoAuthority)}/${encodeURIComponent(repoName)}`;  // base API URL
       }
     }
   }
   
+  /**
+   * @method getRepoName
+   * @return {string} The repository name extracted from the URL.
+   * @description
+   * This method extracts and returns the repository name from the URL.
+   * If the URL does not contain a repository name, it returns an empty string.
+   */
   public getRepoName(): string{
     const match = this.url.match(/\/([^\/]+?)(?:\.git)?$/);
     if (match && match.length > 1) {
@@ -123,8 +153,14 @@ export class URLHandler {
     return "";
   }
 
+  /**
+   * @method isValidURL
+   * @param {string} url - The URL to be validated.
+   * @return {boolean} True if the URL is valid, otherwise false.
+   * @description
+   * This static method checks if the provided URL is valid.
+   */
   public static isValidURL(url: string): boolean {
-    // Check if URL is valid
     try {
         new URL(url);
         return true;
@@ -134,6 +170,13 @@ export class URLHandler {
     }
   }
 
+  /**
+   * @method checkUrlExists
+   * @param {string} url - The URL to be checked.
+   * @return {Promise<boolean>} True if the URL exists, otherwise false.
+   * @description
+   * This static method checks if the provided URL exists by making a HEAD request.
+   */
   public static async checkUrlExists(url: string): Promise<boolean> {
     try {
       const response = await fetch(url, { method: 'HEAD' });
@@ -143,19 +186,63 @@ export class URLHandler {
       return false;
     }
   }
+  
+  /**
+   * @method staticGithubURLToHttps
+   * @param {string} url - The URL to be converted
+   * @return {Promise<boolean>} The https formatted version of the URL.
+   * @description
+   * This static method converts the provided GitHub URL to an https formatted URL.
+   */
+public static convertGithubURLToHttps(url: string): string {
+  let httpsUrl = url.replace(/^git\+/, '').replace(/\.git$/, '');
 
-  public static async getGithubURLFromNpmURL(url: string): Promise<string | null> {
-    // Get github repository URL from npm package URL
-    try {
-        const response = await axios.get(url);
-        const html = response.data;
-        const githubURL = html.match(/https:\/\/github.com\/[\w-]+\/[\w-]+/);
-        if (githubURL) {
-            return githubURL[0];
-        }
-    } catch (error) {
-        Logger.logDebug('Error getting github URL from npm package:' + error);
-    }
-    return null;
+  if (httpsUrl.startsWith('git://')) {
+    httpsUrl = httpsUrl.replace('git://', 'https://');
+  } else if (httpsUrl.startsWith('git@')) {
+    httpsUrl = httpsUrl.replace('git@', 'https://').replace(':', '/');
   }
+
+  return httpsUrl;
+}
+
+  /**
+   * @method getGithubURLFromNpmURL
+   * @param {string} url - The npm package URL.
+   * @return {Promise<string | null>} The GitHub repository URL if found, otherwise null.
+   * @description
+   * This static method extracts and returns the GitHub repository URL from an npm package URL.
+   * If the GitHub repository URL cannot be found, it returns null.
+   */
+public static async getGithubURLFromNpmURL(url: string): Promise<string | null> {
+  // Get github repository URL from npm package URL
+  try {
+      // Extract package name from npm URL
+      const regex = /\/package\/([^\/]+)/;
+      const match = url.match(regex);
+      const packageName = match ? match[1] : '';
+
+      // Check package.json of npmjs package from registry.npmjs.org
+      const response = await axios.get(`https://registry.npmjs.org/${packageName}`);
+      
+      // Check that repository is a git repository
+      if (response.data.repository?.type !== 'git') {
+        return null;
+      }
+
+      // Convert git repository URL to https format
+      const githubURL = URLHandler.convertGithubURLToHttps(response.data.repository?.url || "");
+      
+      // Return null if no github URL found
+      if (githubURL == "") {
+        return null;
+      }
+
+      return githubURL;
+  } catch (error) {
+      Logger.logInfo('Error getting github URL from npm package');
+      Logger.logDebug(error);
+  }
+  return null;
+}
 }

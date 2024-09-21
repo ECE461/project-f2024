@@ -44,6 +44,7 @@ export async function gitClone(url: URLHandler){
     const cloned_folder = path.join(repo_folder + "/", url.getRepoName()); 
     folderExists(cloned_folder);
     
+<<<<<<< HEAD
     // try{    
     //     await git.clone({fs, http, dir: cloned_folder, url: url.url, singleBranch: true, depth: 1})
     //     console.log('successfully git cloned ', url.getRepoName());
@@ -67,3 +68,15 @@ export async function gitClone(url: URLHandler){
 // url2.setRepoURL();
 // gitClone(url));
 // gitClone(url2);
+=======
+    try{
+        await git.clone({fs, http, dir: cloned_folder, url: url.getRepoURL(), singleBranch: true, depth: 1})
+        Logger.logInfo('Successfully git cloned ' + url.getRepoName());
+    }
+    catch(Error){
+        Logger.logInfo('Unsuccessful git clone ' + url.getRepoName());
+        Logger.logDebug(Error);
+    }
+
+}
+>>>>>>> 23432e55edc55473f076e233d3942fa5dabe09c6

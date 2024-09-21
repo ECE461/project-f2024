@@ -10,10 +10,10 @@ export abstract class Metric {
     abstract jsonKey: string;
 
     constructor(url: URLHandler) {
-        this.score = 0;
+        this.score = -1;
         this.url = url;
-        this.latency = 0;
-        this.start = 0;
+        this.latency = -1;
+        this.start = -1;
     }
 
     abstract calculateScore(): Promise<void>; 
@@ -42,7 +42,7 @@ export abstract class Metric {
     }
 
     public endTimer(): void {
-        this.latency = Date.now() - this.start;
+        this.latency = parseFloat(((Date.now() - this.start) / 1000).toFixed(3));
     }
 
 }

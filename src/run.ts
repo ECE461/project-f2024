@@ -7,7 +7,7 @@ import {urlCommand} from './commands/urlCommand';
 import { url } from 'inspector';
 
 const usage = `
-Usage: node run.js [command] [options]
+Usage: ./run [command]
 
 Commands:
   install           Install project dependencies
@@ -37,7 +37,6 @@ async function main() {
 
   if (argument === 'test') {
     Logger.logDebug('Running tests...');
-    console.log("Running tests...");
     await runTests();
   }
   else if (URLFileHandler.isTxtFile(argument)) {
@@ -45,7 +44,7 @@ async function main() {
     await urlCommand(argument);
   }
   else {
-    const error = new Error("Incorrect arguments provided to ./run");
+    const error = new Error('Incorrect arguments provided to ./run');
     console.error(error.message);
     console.error(usage);
     throw error;
