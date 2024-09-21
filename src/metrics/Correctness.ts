@@ -1,6 +1,7 @@
 import {Metric} from './Metric';
 import { URLHandler } from '../utils/URLHandler';
 import axios from 'axios';
+import { Logger } from '../logUtils';
 
 
 /**
@@ -83,16 +84,10 @@ export class Correctness extends Metric {
         try{
             const repoName = this.url.getRepoName();
             
-            console.log(`Repo Name: ${repoName}`);
-
-            // const repoOwner = this.url.getOwnerName();
             const repoOwner =this.url.getOwnerName();
-            console.log(`Repo Owner: ${repoOwner}`);
             const repoFullName = `${repoOwner}/${repoName}`;
             const apiURLIssue = `https://api.github.com/search/issues?q=repo:${repoFullName}+is:issue+state:${state}`;
-
-            
-            console.log(`Fetching ${state} issues from: ${apiURLIssue}`);
+            Logger.logDebug(`Correctness: API Call with ${apiURLIssue}`);
             const issuesResponse = await axios.get(apiURLIssue,{
                 headers: {
                     
@@ -101,14 +96,14 @@ export class Correctness extends Metric {
             });
 
             const totalIssues = issuesResponse.data.total_count;
-        
 
             return totalIssues
         }catch(error){
             if(axios.isAxiosError(error)){
                 console.error(`Error fetching ${state} issues:`, error.response?.data);
             } else {
-                console.error('Unknown error:', error);};
+                console.error('Unknown error:', error);
+            }
             return -1;
         }
     }
@@ -125,8 +120,8 @@ export class Correctness extends Metric {
             const openCount = await this.getIssueCountByState('open');
             const closedCount = await this.getIssueCountByState('closed');
     
-            console.log(`Open Issues: ${openCount}`);
-            console.log(`Closed Issues: ${closedCount}`);
+            Logger.logDebug(`Total open Issues: ${openCount} for ${this.url.getURL()}`);
+            Logger.logDebug(`Total closed Issues: ${closedCount} for ${this.url.getURL()}`);
 
             return [openCount, closedCount];
         } catch (error) {
