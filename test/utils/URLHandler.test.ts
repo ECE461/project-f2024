@@ -1,5 +1,5 @@
-import { Logger } from '../../logUtils';
-import { URLHandler } from '../../utils/URLHandler';
+import { Logger } from '../../src/logUtils';
+import { URLHandler } from '../../src/utils/URLHandler';
 import axios from 'axios';
 
 jest.mock('axios');

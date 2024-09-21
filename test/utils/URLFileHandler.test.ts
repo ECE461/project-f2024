@@ -1,12 +1,12 @@
 import fs from 'fs';
-import { URLFileHandler } from '../../utils/URLFileHandler';
-import { URLHandler } from '../../utils/URLHandler';
+import { URLFileHandler } from '../../src/utils/URLFileHandler';
+import { URLHandler } from '../../src/utils/URLHandler';
 
 // Mock the fs module
 jest.mock('fs');
 
 // Mock the URLHandler class
-jest.mock('../../utils/URLHandler', () => {
+jest.mock('../../src/utils/URLHandler', () => {
   return {
     URLHandler: jest.fn().mockImplementation(() => {
       return {

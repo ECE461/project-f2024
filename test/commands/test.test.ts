@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { Logger } from '../../logUtils';
-import { runTests } from '../../commands/test';
+import { Logger } from '../../src/logUtils';
+import { runTests } from '../../src/commands/test';
 
 
 
