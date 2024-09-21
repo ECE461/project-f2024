@@ -3,7 +3,7 @@ import { BusFactor } from './BusFactor';
 import { Correctness } from './Correctness';
 import { RampUp } from './RampUp';
 import { ResponsiveMetric } from './ResponsiveMetric';
-import { License } from './License';
+import { LicenseMetric } from './License';
 
 export class NetScore{
     jsonKey: string = "NetScore";
@@ -25,7 +25,7 @@ export class NetScore{
         this.latency =  parseFloat(((Date.now() - this.start) / 1000).toFixed(3));
     }
     
-    public calculateScore(busFactor: BusFactor, correctness: Correctness, license: License, rampUp: RampUp, respMet: ResponsiveMetric): number {
+    public calculateScore(busFactor: BusFactor, correctness: Correctness, license: LicenseMetric, rampUp: RampUp, respMet: ResponsiveMetric): number {
         const busWeight = 0.2;
         const correctnessWeight = 0.2;
         const licenseWeight = 0.2;

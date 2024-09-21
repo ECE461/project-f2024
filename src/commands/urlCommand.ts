@@ -3,7 +3,7 @@ import { URLFileHandler } from '../utils/URLFileHandler';
 import { BusFactor } from '../metrics/BusFactor';
 import { Correctness } from '../metrics/Correctness';
 import { RampUp } from '../metrics/RampUp';
-import { License } from '../metrics/License';
+import { LicenseMetric } from '../metrics/License';
 import { ResponsiveMetric } from '../metrics/ResponsiveMetric';
 import { NetScore } from '../metrics/NetScore';
 import { URLHandler } from '../utils/URLHandler';
@@ -69,7 +69,7 @@ export async function urlCommand (argument:string) {
         const busFactor = new BusFactor(url);  // git clone
         const corScore = new Correctness(url);
         const rampUp = new RampUp(url); // git api call
-        const licScore = new License(url); // git api call
+        const licScore = new LicenseMetric(url); // git api call
         const respMet = new ResponsiveMetric(url); // git api call
   
         // Calculate metrics

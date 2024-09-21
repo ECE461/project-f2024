@@ -1,6 +1,7 @@
 import { Metric } from './Metric';
 import { URLHandler } from '../utils/URLHandler';
 import axios from 'axios';
+import { Logger } from '../logUtils';
 
 export class LicenseMetric extends Metric {
     jsonKey: string = "License";
@@ -36,7 +37,8 @@ export class LicenseMetric extends Metric {
             }
 
         } catch (error) {
-            console.error('Error fetching license information:', error);
+            Logger.logInfo('Error fetching license information - ${this.url.getURL()}');
+            Logger.logDebug(error);
             // If we couldn't retrieve the license, set the score to 0
             this.score = 0;
         }
