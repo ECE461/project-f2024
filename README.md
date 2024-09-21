@@ -1,7 +1,9 @@
 # project-f2024
 
-## Overview:
-This repository is an implementation of a command line tool used to score npm and github modules in terms of reliability.
+## Project Purpose:
+This repository is an implementation of a command line tool which aims to help developers choose reliable open-source modules. By analyzing data from GitHub, it evaluates modules based on important factors like ease of use, correctness, contributor activity, responsiveness, and license compatibility.
+
+Our goal is to simplify the process of assessing open-source software.
 
 ## Usage:
 ### `./run install`
@@ -61,8 +63,8 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
 * Measured by ratio of documentation to code
 * Target ratio is smaller for smaller projects as it is assumed that looking through the code itself will be easier as compared to a larger project
 ### Responsiveness
-* High score indicates that contributors have shown responsiveness within last three months
-* Measured by average response times for issues and pull requests i.e. time from open to close
+* This score measures the responsiveness of contributors within last three months
+* Calculated using average response times for issues and pull requests i.e. time from open to close
 ### Metric
 * Abstract class used to structure the five metrics
 ### Net Score
