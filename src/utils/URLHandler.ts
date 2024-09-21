@@ -74,23 +74,12 @@ export class URLHandler {
     return this.githubURL;
   }
 
-<<<<<<< HEAD
-    /**
-     * @method getBaseAPI
-     * @return {string} The base API URL for the GitHub repository if set, otherwise an empty string.
-     * @description
-     * This method returns the base API URL for the GitHub repository if set, otherwise an empty string.
-     * Link is `https://api.github.com/repos/${repoAuthority}/${repoName}`, where user can concat relevant api endpoints.
-     * 
-     */
-=======
   /**
    * @method getBaseAPI
    * @return {string} The base API URL for the GitHub repository if set, otherwise an empty string.
    * @description
    * This method returns the base API URL for the GitHub repository if set, otherwise an empty string.
    */
->>>>>>> 23432e55edc55473f076e233d3942fa5dabe09c6
   public getBaseAPI(): string {
     if (this.baseAPI === null) {
       return "";

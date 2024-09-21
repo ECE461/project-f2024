@@ -43,14 +43,6 @@ export class RampUp extends Metric {
     }
 
 
-<<<<<<< HEAD
-        // Convert the base url to an API url 
-        const apiBase = "https://api.github.com/repos";
-        const urlParts = this.url.getRepoURL().split('github.com/')[1].split('/');
-        const owner = urlParts[0];
-        const repo = urlParts[1];
-        let apiEndpoint = `${apiBase}/${owner}/${repo}/contents`;
-=======
     /**
      * @method calculateScore
      * @return {Promise<void>} A promise that resolves when the score calculation is complete.
@@ -62,7 +54,6 @@ export class RampUp extends Metric {
         this.startTimer();  // Start timer for latency
       
         let apiEndpoint = `${this.url.getBaseAPI()}/contents`;   // Get the base API endpoint for files
->>>>>>> 23432e55edc55473f076e233d3942fa5dabe09c6
 
         // Make API calls to get the file information
         try {
