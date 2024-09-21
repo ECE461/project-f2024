@@ -37,7 +37,6 @@ async function main() {
 
   if (argument === 'test') {
     Logger.logDebug('Running tests...');
-    console.log("Running tests...");
     await runTests();
   }
   else if (URLFileHandler.isTxtFile(argument)) {
