@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { RampUp } from '../metrics/RampUp';
-import { URLHandler } from '../utils/URLHandler';
+import { RampUp } from '../../metrics/RampUp';
+import { URLHandler } from '../../utils/URLHandler';
 
 jest.mock('axios');
-jest.mock('../utils/URLHandler');
+jest.mock('../../utils/URLHandler');
 
 describe('RampUp', () => {
     const repoUrl = 'https://github.com/user/repo';
