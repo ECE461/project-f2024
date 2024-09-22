@@ -26,13 +26,13 @@ export class NetScore{
     }
     
     public calculateScore(busFactor: BusFactor, correctness: Correctness, license: LicenseMetric, rampUp: RampUp, respMet: ResponsiveMetric): number {
-        const busWeight = 0.35; // Highest priority
-        const correctnessWeight = 0.1;
-        const licenseWeight = 0.25;
+        const busWeight = 0.4; // Highest priority
+        const correctnessWeight = 0.15;
         const rampUpWeight = 0.15;
-        const respMetWeight = 0.15;
+        const respMetWeight = 0.3;
 
         let totalWeight = 0;
+        // -1 is an edge case where the score is not calculated
         if (busFactor.getScore() !== -1) {
             this.score += busFactor.getScore() * busWeight;
             totalWeight += busWeight;
@@ -41,10 +41,6 @@ export class NetScore{
             this.score += correctness.getScore() * correctnessWeight;
             totalWeight += correctnessWeight;
         }
-        if (license.getScore() !== -1) {
-            this.score += license.getScore() * licenseWeight;
-            totalWeight += licenseWeight;
-        }
         if (rampUp.getScore() !== -1) {
             this.score += rampUp.getScore() * rampUpWeight;
             totalWeight += rampUpWeight;
@@ -52,6 +48,9 @@ export class NetScore{
         if (respMet.getScore() !== -1) {
             this.score += respMet.getScore() * respMetWeight;
             totalWeight += respMetWeight;
+        }
+        if (license.getScore() !== -1) {
+            this.score *= license.getScore();
         }
         
         if (totalWeight > 0) {

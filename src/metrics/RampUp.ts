@@ -134,7 +134,7 @@ export class RampUp extends Metric {
             }
             Logger.logInfo('Ramp up: Error getting repository files and sizes');
             Logger.logDebug(error);
-            this.score = -1;
+            this.score = 0;
         }
 
         // End timer for latency

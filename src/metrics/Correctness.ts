@@ -59,7 +59,7 @@ export class Correctness extends Metric {
         if (totalIssues > 0) {
             this.score = (closedCount / totalIssues) ; // Percent correctness
         } else if (totalIssues < 0) {
-            this.score = -1; // If there is an error, correctness is -1
+            this.score = 0; // If there is an error, correctness is -1
         } else {
             this.score = 0; // If there are no issues, correctness is 0
         }
@@ -102,7 +102,7 @@ export class Correctness extends Metric {
             } else {
                 console.error('Unknown error:', error);
             }
-            return -1;
+            return 0;
         }
     }
 

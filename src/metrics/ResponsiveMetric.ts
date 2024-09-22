@@ -44,7 +44,7 @@ export class ResponsiveMetric extends Metric {
             this.score = this.normalizeResponseMetric(avgResponseTime);
             
         } catch (error) {
-            Logger.logInfo(`Error in calculating ResponsiveMaintainer metric... Score set to -1... Repo Name: ${this.url.getRepoName()}`);
+            Logger.logInfo(`Error in calculating ResponsiveMaintainer metric... Score set to 0... Repo Name: ${this.url.getRepoName()}`);
             Logger.logDebug(error);
             throw new Error("Responsive Metric: Error in calculating score.");
         } 
