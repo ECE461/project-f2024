@@ -4,16 +4,6 @@ import { Logger } from '../logUtils';
 
 export class URLFileHandler {
     /**
-     * @static 
-     * @function isTxtFile(): is the file containing all the urls all txt files?
-     * @param {string} filePath: absolute path to the file
-     * @returns {boolean}
-     */
-    public static isTxtFile(filePath: string): boolean {
-        return filePath.endsWith('.txt');
-    }
-
-    /**
      * @static @async
      * @function getGithubUrlsFromFile(): reads url from txt file. gets rid of white space and extra '\n's 
      * @param {string} filepath: absolute path to the file

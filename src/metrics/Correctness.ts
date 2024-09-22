@@ -47,30 +47,28 @@ export class Correctness extends Metric {
      * The score is based on the ratio of closed issues to total issues.
      */
     async calculateScore(): Promise<void> {
-        try {
         // Start timer for latency
         this.startTimer();
+        try {
 
         const [openCount, closedCount] = await this.getIssueCounts();
         
-
         const totalIssues = openCount + closedCount;
 
-            // Calculate the correctness score (Closed Issues / Total Issues)
-            if (totalIssues > 0) {
-                this.score = (closedCount / totalIssues) ; // Percent correctness
-            } else {
-                this.score = 0; // If there are no issues, correctness is 0
-            }
-
-
-        // End timer for latency
-        this.endTimer();
+        // Calculate the correctness score (Closed Issues / Total Issues)
+        if (totalIssues > 0) {
+            this.score = (closedCount / totalIssues) ; // Percent correctness
+        } else if (totalIssues < 0) {
+            this.score = -1; // If there is an error, correctness is -1
+        } else {
+            this.score = 0; // If there are no issues, correctness is 0
+        }
 
         } catch (error) {
-            console.error('Error calculating correctness score:', error);
-            this.score = 0; // Set score to 0 if there's an error
+            Logger.logDebug(`Error calculating correctness score ${error}`);
         }
+        // End timer for latency
+        this.endTimer();
     }
 
     /**
@@ -125,7 +123,7 @@ export class Correctness extends Metric {
 
             return [openCount, closedCount];
         } catch (error) {
-            console.error('Error getting issue counts:', error);
+            Logger.logDebug(`Error getting issue counts: ${error}`);
             return [-1, -1];
         }
     }

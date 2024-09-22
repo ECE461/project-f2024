@@ -32,24 +32,11 @@ async function clearClonedRepos() {
 }
 
 /**
-  * [checkForGithubToken] - Checks if the Github token has been set as an environment variable
-  * @throws {Error} if the Github token has not been set
-  */
-export function checkForGithubToken() {
-  if (!process.env.GITHUB_TOKEN) {
-    console.error('Please set the GITHUB_TOKEN environment variable');
-    throw new Error('Please set the GITHUB_TOKEN environment variable');
-  }
-}
-
-/**
  * Function to process a file containing URLs to Github repositories and output the metrics
  * @param argument - the file containing the URLs
  * @throws {Error} if the file is invalid or the URLs are invalid
  */
 export async function urlCommand (argument:string) {
-    checkForGithubToken();
-
     const urls = await URLFileHandler.getGithubUrlsFromFile(argument);
     if (urls === null) {
       Logger.logInfo('Error reading file or file has invalid URLs');
@@ -57,7 +44,6 @@ export async function urlCommand (argument:string) {
       throw new Error('Error reading file or file has invalid URLs');
     }
     
-    // TODO: Maybe make this parallel?
     try {
       for (const url of urls) {
         // Clone repository
