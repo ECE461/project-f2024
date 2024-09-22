@@ -40,7 +40,7 @@ export class LicenseMetric extends Metric {
             Logger.logInfo('Error fetching license information - ${this.url.getURL()}');
             Logger.logDebug(error);
             // If we couldn't retrieve the license, set the score to 0
-            this.score = 0;
+            this.score = await this.checkReadmeForLicense(apiEndpoint);
         }
 
         // End timer for latency

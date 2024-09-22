@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LicenseMetric } from '../../src/metrics/LicenseMetric';
+import { LicenseMetric } from '../../src/metrics/License';
 import { URLHandler } from '../../src/utils/URLHandler';
 
 jest.mock('axios');
