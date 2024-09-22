@@ -2,6 +2,7 @@ node_modules/
 
 # Build output
 dist/
+cloned_repos/
 
 # Environment variables
 .env
@@ -11,5 +12,3 @@ dist/
 
 # Coverage output
 coverage/
-
-cloned_repos

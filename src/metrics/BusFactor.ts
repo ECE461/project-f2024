@@ -30,7 +30,6 @@ export class BusFactor extends Metric {
         
         //stats/contributors endpoint 
         let ep = this.url.getBaseAPI() + "/stats/contributors";
-        console.log("busfactor endpoint: " + ep); 
     
         
         //metrics values need (explicitly typed or else will be interpreted as boolean)
@@ -44,14 +43,17 @@ export class BusFactor extends Metric {
         try{
             //make api call to ep to return container of objects.
             const response = await axios.get(ep, {headers: {'Authorization': `token ${process.env.GITHUB_TOKEN}`}}); 
-            const data = response.data; 
-            if(data == null){
+            
+            if(!response || !response.data || !response.data.length){
+                console.log('data is null');
                 this.score = -1; 
                 return;
             }
-            // console.log(typeof(response)); 
-            //iterate through each contributor data
             
+            // console.log(typeof(response)); 
+            
+            //iterate through each contributor data
+            const data = response.data; 
             data.forEach((contributor : any) =>{
                 
                 //add to total commits
@@ -61,7 +63,7 @@ export class BusFactor extends Metric {
                 if(contributor.total > hc_commits){
                     hc_commits = contributor.total; 
                     author = contributor.author.login; //record this to determine whether to change hc_lines
-                    hc_lines = 0; //reset highest contributor lines for later iteration
+                    hc_lines = 0; //reset highest contributor lines to be overwritten below
                 }
 
                 //get total lines
@@ -75,15 +77,27 @@ export class BusFactor extends Metric {
             });
 
         }catch(Error){ 
-            console.log(Error);
             Logger.logDebug("Bus Factor: Error fetching bus factor data from repository\n" + Error);
             this.score = -1; 
             this.endTimer(); 
             return;
         }
 
-        console.log(`highest contributor: ${author}\n with ${hc_lines}, ${hc_commits} commits`)
-        this.score = 1 - 0.5 * (hc_lines / total_lines) - 0.5 * (hc_commits / total_commits);
+        // console.log(`\nlargest contributor:${author}\nlines altered: ${hc_lines}/${total_lines}\ncommits:${hc_commits}/${total_commits}`);
+
+        //there are certain github repo settings that omit data
+        if(!total_lines && total_commits){
+            console.log('proceed with caution, total changed lines unable to be retrieved by api'); 
+            this.score = 1 - 0.5 * (hc_commits / total_commits); //omit calculation that would make it null 
+        }
+        else if (!total_commits){
+            console.log('proceed with caution, total commits unable to be retrieved by api')
+            this.score = 1 - 0.5 * (hc_lines / total_lines);
+        }
+        else{
+            this.score = 1 - 0.5 * (hc_lines / total_lines) - 0.5 * (hc_commits / total_commits);
+        }
+        
 
         //one is the maximum value 
         this.score = this.score > 1 ? 1 : this.score; 

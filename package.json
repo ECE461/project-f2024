@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npm run clean && tsc -b",
     "clone": "npm run build && node dist/utils/isoGitHelper.js",
-    "test": "jest",
+    "test": "npm run clean && jest",
     "clean": "shx rm -rf dist && rm -rf cloned_repos"
   },
   "keywords": [],
