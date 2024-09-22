@@ -61,7 +61,7 @@ export class BusFactor extends Metric {
                 if(contributor.contributions > hc_commits){
                     hc_commits = contributor.contributions; 
                     author = contributor.login; //record this to determine whether to change hc_lines
-                    hc_lines = 0; //reset highest contributor lines for later iteration
+                    // hc_lines = 0; //reset highest contributor lines for later iteration
                 }
 
                 //get total lines
