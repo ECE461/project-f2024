@@ -67,14 +67,18 @@ export class BusFactor extends Metric {
                 }
 
                 //get total lines
+                let individual_contribution = 0;
                 contributor.weeks.forEach((week : any) => {
-                    total_lines += week.a + week.d;
-                
-                    if (author == contributor.author.login){
-                        hc_lines += week.a + week.d; 
-                    }
+                    individual_contribution += week.a + week.d; 
                 });
-            });
+
+                total_lines += individual_contribution;
+
+                
+                if ((author == contributor.author.login) || (author == ' ' && individual_contribution > hc_lines)){
+                    hc_lines = individual_contribution;
+                }
+            }); 
 
         }catch(Error){ 
             Logger.logDebug("Bus Factor: Error fetching bus factor data from repository\n" + Error);

@@ -256,8 +256,8 @@ describe('divide by zero', ()=> {
               "weeks": [
                 {
                   "w": 1367712000,
-                  "a": 123123,
-                  "d": 123,
+                  "a": 200,
+                  "d": 100,
                   "c": 0
                 }
               ]
@@ -287,8 +287,8 @@ describe('divide by zero', ()=> {
               "weeks": [
                 {
                   "w": 1367712000,
-                  "a": 2312313,
-                  "d": 1231,
+                  "a": 50,
+                  "d": 50,
                   "c": 0
                 }
               ]
@@ -303,6 +303,6 @@ describe('divide by zero', ()=> {
         expect(spy).not.toHaveBeenCalledWith('data is null');
         expect(spy).toHaveBeenLastCalledWith('proceed with caution, total commits unable to be retrieved by api');
         
-        expect(bf.getScore()).toBe(0.6875); 
+        expect(bf.getScore()).toBe(0.625); 
     });
 });
