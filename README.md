@@ -67,6 +67,7 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
 * High score indicates low ramp up time required
 * Measured by ratio of documentation to code
 * Target ratio is smaller for smaller projects as it is assumed that looking through the code itself will be easier as compared to a larger project
+* `ramp_up = (estimated_documentation_file_size / estimated_total_code_size) * size_ratio`
 ### Responsiveness
 * This score measures the responsiveness of contributors within last three months
 * Calculated using average response times for issues and pull requests i.e. time from open to close
