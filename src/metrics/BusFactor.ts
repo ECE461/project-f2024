@@ -29,18 +29,18 @@ export class BusFactor extends Metric {
         this.startTimer();
         
         //stats/contributors endpoint 
-        let ep = this.url.getBaseAPI() + "/contributors";
+        let ep = this.url.getBaseAPI() + "/stats/contributors";
         console.log("busfactor endpoint: " + ep); 
-
+    
         
         //metrics values need (explicitly typed or else will be interpreted as boolean)
         //hc stands for 'highest contributor', defined as individual with most commits, not necessarily most lines
         let total_commits: number = 0; 
         let hc_commits = 0; 
-        // let total_lines = 0; 
-        // let hc_lines = 0;
+        let total_lines = 0; 
+        let hc_lines = 0;
 
-        let author:string; 
+        let author:string = " "
         try{
             //make api call to ep to return container of objects.
             const response = await axios.get(ep, {headers: {'Authorization': `token ${process.env.GITHUB_TOKEN}`}}); 
@@ -55,24 +55,23 @@ export class BusFactor extends Metric {
             data.forEach((contributor : any) =>{
                 
                 //add to total commits
-                total_commits += contributor.contributions; 
-                console.log(`contributor contributions: ${contributor.contributions}`);
+                total_commits += contributor.total; 
+
                 //get highest contributor (change if needed)
-                if(contributor.contributions > hc_commits){
-                    hc_commits = contributor.contributions; 
-                    author = contributor.login; //record this to determine whether to change hc_lines
-                    // hc_lines = 0; //reset highest contributor lines for later iteration
+                if(contributor.total > hc_commits){
+                    hc_commits = contributor.total; 
+                    author = contributor.author.login; //record this to determine whether to change hc_lines
+                    hc_lines = 0; //reset highest contributor lines for later iteration
                 }
 
                 //get total lines
-                // contributor.weeks.forEach((week : any) => {
-                //     total_lines += week.a + week.d;
-                    
-                //     //total lines from highest contributor
-                //     if (author == contributor.login){
-                //         hc_lines += week.a + week.d; 
-                //     }
-                // });
+                contributor.weeks.forEach((week : any) => {
+                    total_lines += week.a + week.d;
+                
+                    if (author == contributor.author.login){
+                        hc_lines += week.a + week.d; 
+                    }
+                });
             });
 
         }catch(Error){ 
@@ -83,7 +82,8 @@ export class BusFactor extends Metric {
             return;
         }
 
-        this.score = 1 - 0.5 * (hc_commits / total_commits);
+        console.log(`highest contributor: ${author}\n with ${hc_lines}, ${hc_commits} commits`)
+        this.score = 1 - 0.5 * (hc_lines / total_lines) - 0.5 * (hc_commits / total_commits);
 
         //one is the maximum value 
         this.score = this.score > 1 ? 1 : this.score; 
