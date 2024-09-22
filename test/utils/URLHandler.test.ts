@@ -95,27 +95,27 @@ describe('URLHandler', () => {
 
         it('should set the repository URL for an npm URL', async () => {
             urlHandler = new URLHandler('https://www.npmjs.com/package/express');
-            expect(await urlHandler.getRepoURL()).toBe("");
+            expect(urlHandler.getRepoURL()).toBe("");
             await urlHandler.setRepoURL();
-            expect(await urlHandler.getRepoURL()).toBe('https://www.github.com/expressjs/express');
+            expect(urlHandler.getRepoURL()).toBe('https://www.github.com/expressjs/express');
         });
 
         it('should set the repository URL for a github URL', async () => {
             urlHandler = new URLHandler('https://github.com/expressjs/express');
             await urlHandler.setRepoURL();
-            expect(await urlHandler.getRepoURL()).toBe('https://github.com/expressjs/express');
+            expect(urlHandler.getRepoURL()).toBe('https://github.com/expressjs/express');
         });
 
         it('should not set the repository URL for an invalid URL', async () => {
             urlHandler = new URLHandler('invalid-url');
             await urlHandler.setRepoURL();
-            expect(await urlHandler.getRepoURL()).toBe("");
+            expect(urlHandler.getRepoURL()).toBe("");
         });
 
         it('should not set the repository URL for a non-github/npm URL', async () => {
             urlHandler = new URLHandler('https://www.google.com');
             await urlHandler.setRepoURL();
-            expect(await urlHandler.getRepoURL()).toBe("");
+            expect(urlHandler.getRepoURL()).toBe("");
         });
     });
 

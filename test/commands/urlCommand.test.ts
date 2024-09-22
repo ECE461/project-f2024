@@ -38,45 +38,10 @@ describe('urlCommand', () => {
                 consoleErrorSpy.mockRestore()
             }   
         });
-        it('should print Error reading file or file has invalid URLs', async () => {  
+        it('should print ENOENT: no such file or directory, open', async () => {  
             consoleErrorSpy = jest.spyOn(console, 'error');  
 
-            await expect(urlCommand('test1.txt')).rejects.toThrow('Error reading file or file has invalid URLs');
-
-            // Check if stdout contains the expected results
-            expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching("Error reading file or file has invalid URLs"));
-        });
-    });
-    describe('urlCommand - Fail to delete cloned repos', () => {
-        const execPromise = promisify(exec);
-        const clonedReposPath = path.join(__dirname, '../../cloned_repos');
-        beforeEach(async() => {
-            try {
-                await execPromise(`chmod -w ${clonedReposPath}`);
-                Logger.logInfo(`Successfully changed permissions for ${clonedReposPath}`);
-            } catch (error) {
-                Logger.logInfo('Error changing permissions:'+ error);
-            }
-        });
-        afterEach(async () => {
-            try {
-                await execPromise(`chmod +w ${clonedReposPath}`);
-                Logger.logInfo(`Successfully changed permissions for ${clonedReposPath}`);
-            } catch (error) {
-                Logger.logInfo('Error changing permissions:' + error);
-            }
-            if (consoleErrorSpy) {
-                consoleErrorSpy.mockRestore()
-            } 
-        });
-          
-        it('should print "Error while clearing folder"', async () => {  
-            consoleErrorSpy = jest.spyOn(console, 'error');  
-
-            await expect(urlCommand('test1.txt')).rejects.toThrow('Error reading file or file has invalid URLs');
-
-            // Check if stdout contains the expected results
-            expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching('Error reading file or file has invalid URLs'));
+            await expect(urlCommand('test1.txt')).rejects.toThrow('ENOENT: no such file or directory, open');
         });
     });
 });

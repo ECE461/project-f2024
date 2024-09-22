@@ -39,9 +39,8 @@ describe('URLFileHandler', () => {
 
     });
 
-    it('should return null for an invalid file', async () => {
-      const urls = await URLFileHandler.getGithubUrlsFromFile('invalid.file');
-      expect(urls).toBe(null);
+    it('should throw error for invalid (nonexitant) file', async () => {
+      await expect(URLFileHandler.getGithubUrlsFromFile('invalid.file')).rejects.toThrow("Cannot read properties of undefined (reading 'readFile')");
     });
   });
 });

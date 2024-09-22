@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
-# Logging for bash script **************************************
+# Check that script is ran from root directory
+if [ $0 != "./run" ]
+then
+  echo "Please run this script from the root directory with ./run"
+  exit 1
+fi
+
+# Setup Logging for bash script **************************************
 LOG_LEVEL=${LOG_LEVEL:-0}
 LOG_FILE=${LOG_FILE:-"default.log"}
 
@@ -25,13 +32,6 @@ log() {
     fi
 }
 # ****************************************************************
-
-# Check that script is ran from root directory
-if [ $0 != "./run" ]
-then
-  echo "Please run this script from the root directory with ./run"
-  exit 1
-fi
 
 # "install" command must be ran in bash because running js files requires "npm install" to be ran first
 if [ "$1" == "install" ]; then

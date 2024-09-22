@@ -7,9 +7,10 @@ export class URLFileHandler {
      * @static @async
      * @function getGithubUrlsFromFile(): reads url from txt file. gets rid of white space and extra '\n's 
      * @param {string} filepath: absolute path to the file
-     * @returns {Promise<URLHandler[] | null>}: returns array of all existing urls or null, if file is empty
+     * @returns {Promise<URLHandler[]>}: returns array of all existing urls
+     * @throws {Error}: if file is invalid or URLs are invalid
      */
-    public static async getGithubUrlsFromFile(filePath: string): Promise<URLHandler[] | null> {
+    public static async getGithubUrlsFromFile(filePath: string): Promise<URLHandler[]> {
         try {
             const data = await fs.readFile(filePath, 'utf-8');
             const urls = data.split('\n').map(line => line.trim()).filter(line => line.length > 0);
@@ -20,25 +21,23 @@ export class URLFileHandler {
                     const URL = new URLHandler(url);
                     await URL.setRepoURL();
 
-                    const githubUrl = await URL.getRepoURL();
+                    const githubUrl = URL.getRepoURL();
                     if (githubUrl !== "") {
                         urlItems.push(URL);
                     }
                     else {
-                        // If URL is invalid bc not github/npm, or github URL not found from npm URL -> return null
-                        Logger.logDebug('Not a github/npm URL: ' + url);
-                        return null;
+                        // If URL is invalid bc not github/npm, or github URL not found from npm URL, throw Error
+                        throw new Error('Not a github/npm URL: ' + url);
                     }
                 }
                 else {
-                    Logger.logDebug('Invalid URL: ' + url);
-                    return null;
+                    throw new Error('Invalid URL: ' + url);
                 }
             }
             return urlItems;
-        } catch (error) {
-            Logger.logDebug('Error reading file:' + error);
-            return null;
+        } catch (error: any) {
+            Logger.logDebug(error);
+            throw error;
         }
         
     }

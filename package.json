@@ -7,7 +7,7 @@
     "clone": "npm run build && npx ts-node dist/utils/isoGitHelper.js",
     "test": "jest",
     "clean": "shx rm -rf cloned_repos",
-    "deepclean": "npm run clean && shx rm -rf node_modules && shx rm package-lock.json"
+    "deepclean": "npm run clean && shx rm package-lock.json && shx rm -rf node_modules"
   },
   "keywords": [],
   "author": "",

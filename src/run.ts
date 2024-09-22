@@ -27,9 +27,7 @@ async function main() {
 
   // If no arguments are provided, show usage
   if (args._.length === 0) {
-    const error = new Error("No arguments provided to ./run");
-    console.error(error.message);
-    console.error(usage);
+    const error = new Error(`No arguments provided to ./run\n${usage}`);
     throw error;
   }
 
