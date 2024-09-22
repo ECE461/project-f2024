@@ -8,8 +8,8 @@ enum LogLevel {
 }
 
 // Set settings from environment variables
-const envLogLevel = parseInt(process.env.LOG_LEVEL || '0', 10);
-const logLevel = Object.values(LogLevel).includes(envLogLevel) ? envLogLevel : LogLevel.SILENT;
+const envLogLevel = process.env.LOG_LEVEL
+const logLevel = (envLogLevel !== undefined && !isNaN(Number(envLogLevel)) && Object.values(LogLevel).includes(Number(envLogLevel))) ? Number(envLogLevel) : LogLevel.SILENT;
 const defaultFilePath = path.join(__dirname, '../default.log');
 const logFilePath = process.env.LOG_FILE || defaultFilePath;
 
