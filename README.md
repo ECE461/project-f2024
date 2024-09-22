@@ -55,7 +55,12 @@ Our goal is to simplify the process of assessing open-source software.
 ## Scoring
 All scores are calculated between 0 and 1 (inclusive), a higher score corresponds to a better implementation of the metric within a repository. If the module fails to calculate the score, the score is set to -1.
 ### Bus Factor
-   Bus factor is defined by "the minimum number of team members that have to suddenly disappear from a project before the project stalls due to lack of knowledgeable or competent personnel" (Source: Wikipedia).
+* Defined by "the minimum number of team members that have to suddenly disappear from a project before the project stalls due to lack of knowledgeable or competent personnel" (Source: Wikipedia).
+* Equation used: `1 - 0.5 (highest contributor commits / total commits) - 0.5 (highest contributor lines changed) / total lines changed)`
+    * if there is only one contributor, bus factor would be 0
+    * if there are many contributors, but changes are disproportionately made by a single person, bus factor would approach 0
+    * for evenly split contributions, bus factor will approach 1
+* Possibility of repositories that omit commits or line changed data
 ### Correctness
 ### License
 ### Ramp Up
