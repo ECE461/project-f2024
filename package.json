@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean && tsc -b",
-    "clone": "npm run build && node dist/utils/isoGitHelper.js",
+    "clone": "npm run build && npx ts-node dist/utils/isoGitHelper.js",
     "test": "jest",
-    "clean": "shx rm -rf dist && rm -rf cloned_repos"
+    "clean": "shx rm -rf cloned_repos",
+    "deepclean": "npm run clean && shx rm -rf node_modules && shx rm package-lock.json"
   },
   "keywords": [],
   "author": "",
@@ -21,10 +21,11 @@
   "devDependencies": {
     "@types/jest": "^29.5.13",
     "@types/minimist": "^1.2.5",
-    "@types/node": "^22.5.4",
+    "@types/node": "^22.5.5",
     "jest": "^29.7.0",
     "shx": "^0.3.4",
     "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   }
 }

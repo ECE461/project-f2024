@@ -26,6 +26,13 @@ log() {
 }
 # ****************************************************************
 
+# Check that script is ran from root directory
+if [ $0 != "./run" ]
+then
+  echo "Please run this script from the root directory with ./run"
+  exit 1
+fi
+
 # "install" command must be ran in bash because running js files requires "npm install" to be ran first
 if [ "$1" == "install" ]; then
     npm install --silent
@@ -45,11 +52,12 @@ else
     # Check if dependencies are installed:
     if [ ! -d "node_modules" ]; then
         log $LL_INFO "Error: Dependencies are not installed. Run './run install' first"
+        echo "Error: Dependencies are not installed. Run './run install' first" >&2
         exit 1
     fi
 
     # run.js handles "test" and "<url_file>" commands
-    node dist/run.js "$@"
+    npx ts-node src/run.ts "$@"
     STATUS=$?
 
     exit $STATUS

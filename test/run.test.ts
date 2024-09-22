@@ -12,7 +12,7 @@ Usage: ./run [command]
 Commands:
   install           Install project dependencies
   test              Run unit tests
-  <url_file>.txt    Score modules from URLs listed in .txt file
+  <url_file>        Score modules from URLs listed in file
 `;
 
 
@@ -57,7 +57,7 @@ describe('Test run.ts main', () => {
     });
   });
 
-  describe('Run with correct argument ./run <file>.txt', () => {
+  describe('Run with correct argument ./run <file>', () => {
     const tempFilePath = path.join(__dirname, 'test.txt');
     afterEach(async () => {
       // Clean up the temporary file after each test

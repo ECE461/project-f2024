@@ -9,8 +9,8 @@ Our goal is to simplify the process of assessing open-source software.
 ### `./run install`
 * Installs all dependencies required for project-f2024 reposistory
 
-### `./run <url_file>.txt`
-* Scores npm or Github URLs inside <url_file>.txt
+### `./run <url_file>`
+* Scores npm or Github URLs inside <url_file>
 * Sample Input File:
     ```
     https://www.npmjs.com/package/commander
@@ -34,9 +34,8 @@ Our goal is to simplify the process of assessing open-source software.
     ```
 
 ## Setup:
-1. Install Dependencies: `./run install` or `npm install`
-2. Build the project (compile js scripts): `npm run build`
-3. Setup environment variables
+1. Install Dependencies: `./run install`
+2. Setup environment variables
     1. LOG_FILE (see [Logging](#Logging) section)
     2. LOG_LEVEL (see [Logging](#Logging) section)
     3. GITHUB_TOKEN (required)
@@ -51,6 +50,7 @@ Our goal is to simplify the process of assessing open-source software.
         ```
         export LOG_LEVEL=2
         ```
+3. Run unit tests or evalutate models (see [Usage](#Usage) section)
 
 ## Scoring
 All scores are calculated between 0 and 1 (inclusive), a higher score corresponds to a better implementation of the metric within a repository. If the module fails to calculate the score, the score is set to -1.
