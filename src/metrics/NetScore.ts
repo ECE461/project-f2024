@@ -26,13 +26,39 @@ export class NetScore{
     }
     
     public calculateScore(busFactor: BusFactor, correctness: Correctness, license: LicenseMetric, rampUp: RampUp, respMet: ResponsiveMetric): number {
-        const busWeight = 0.2;
-        const correctnessWeight = 0.2;
-        const licenseWeight = 0.2;
-        const rampUpWeight = 0.2;
-        const respMetWeight = 0.2;
+        const busWeight = 0.35; // Highest priority
+        const correctnessWeight = 0.1;
+        const licenseWeight = 0.25;
+        const rampUpWeight = 0.15;
+        const respMetWeight = 0.15;
 
-        this.score = busFactor.getScore() * busWeight + correctness.getScore() * correctnessWeight + license.getScore() * licenseWeight + rampUp.getScore() * rampUpWeight + respMet.getScore() * respMetWeight;
+        let totalWeight = 0;
+        if (busFactor.getScore() !== -1) {
+            this.score += busFactor.getScore() * busWeight;
+            totalWeight += busWeight;
+        }
+        if (correctness.getScore() !== -1) {
+            this.score += correctness.getScore() * correctnessWeight;
+            totalWeight += correctnessWeight;
+        }
+        if (license.getScore() !== -1) {
+            this.score += license.getScore() * licenseWeight;
+            totalWeight += licenseWeight;
+        }
+        if (rampUp.getScore() !== -1) {
+            this.score += rampUp.getScore() * rampUpWeight;
+            totalWeight += rampUpWeight;
+        }
+        if (respMet.getScore() !== -1) {
+            this.score += respMet.getScore() * respMetWeight;
+            totalWeight += respMetWeight;
+        }
+        
+        if (totalWeight > 0) {
+            this.score /= totalWeight;
+        } else {
+            this.score = -1; // Handle case where all scores are -1
+        }
         return this.score;
     }
 
