@@ -93,7 +93,7 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
     * `BF` = 0.4, according to Sarah's requirements, bus factor is the most important metric in determining repository validity
     * `CM` = 0.15, while closed issues and raised issues can indicate correctness it is possible that they are not a direct correlation
     * `RU` = 0.15, our target 'stakeholders', or users, of the product are engineers that are capable and used to learning new how new packages work
-    * `RM` = 0.3, this metric is similar to bus factor because it shows a continuous effort to maintain the package if any issues were brought up
+    * `RM` = 0.3, this metric is similar to bus factor because it shows a continuous effort to keep the package up to date
 ## External Dependencies
 * **axios**: A promise-based HTTP client for making requests to the npm Registry and GitHub REST APIs. It simplifies the process of handling asynchronous requests and managing responses, making it easier to interact with external services.
 * **minimist**: A lightweight module for parsing command-line arguments. It enables easy extraction of arguments from the CLI, allowing for flexible and user-friendly command-line interfaces in your application.
