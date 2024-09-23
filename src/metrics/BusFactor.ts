@@ -7,8 +7,6 @@ import dotenv from 'dotenv';
 import { Console } from 'node:console';
 
 
-dotenv.config();
-
 export class BusFactor extends Metric {
     jsonKey: string = "BusFactor";
 
