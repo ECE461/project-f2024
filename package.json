@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clone": "npm run build && npx ts-node dist/utils/isoGitHelper.js",
-    "test": "run clean && jest",
+    "test": "npm run clean && jest",
     "clean": "shx rm -rf cloned_repos",
     "deepclean": "npm run clean && shx rm package-lock.json && shx rm -rf node_modules"
   },

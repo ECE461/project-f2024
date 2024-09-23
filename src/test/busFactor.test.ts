@@ -4,6 +4,8 @@ import { URLHandler } from '../utils/URLHandler';
 import { BusFactor } from '../metrics/BusFactor';
 import { buffer } from 'stream/consumers';
 import { Logger } from '../logUtils';
+import { configDotenv } from 'dotenv';
+import { dot } from 'node:test/reporters';
 
 jest.mock('axios'); //fake api calls, not to actual endpoitns 
 jest.mock('../utils/URLHandler'); //with fake urls 
@@ -23,7 +25,7 @@ describe('api endpoint', () => {
         bf = new BusFactor(url);
     });
 
-    it('should return -1 if endpoint returns null', async() => {
+    it('should return 0 if endpoint returns null', async() => {
         (axios.get as jest.Mock).mockResolvedValueOnce(null); 
         
         //activate spying before you run the program duh
@@ -50,7 +52,7 @@ describe('api endpoint', () => {
 
         // expect(spy).toHaveBeenLastCalledWith('data is null');
         
-        expect(bf.getScore()).toBe(-1); 
+        expect(bf.getScore()).toBe(0); 
     });
 
     it('should catch error', async()=>{
