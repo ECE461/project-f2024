@@ -2,7 +2,16 @@ import { exec } from 'child_process';
 import { Logger } from '../logUtils';
 import { createCoverageMap } from 'istanbul-lib-coverage';
 
+/**
+ * @async @function runTests()
+ * @description runs the test suite and outputs results to user
+ */
 export async function runTests() {
+
+  if (!process.env.GITHUB_TOKEN) {
+    throw new Error('Please set the GITHUB_TOKEN environmental variable');
+  }
+
   try {
     exec('npx jest --json --coverage --silent', (err, stdout, stderr) => {
         if (err) {
@@ -31,8 +40,9 @@ export async function runTests() {
         console.log(`Coverage: ${Math.round(averageCoverage)}%`);
         console.log(`${passed}/${total} test cases passed. ${Math.round(averageCoverage)}% line coverage achieved.`);
     });
-  } catch (error) {
+  } catch (error: any) {
     Logger.logInfo("Error while running runTests()")
-    Logger.logDebug(`${error}`);
+    Logger.logDebug(error);
+    throw new Error("Error while running jest. Check logs.")
   }
 }

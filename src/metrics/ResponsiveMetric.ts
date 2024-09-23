@@ -54,7 +54,7 @@ export class ResponsiveMetric extends Metric {
 
     /**
      * @method responsiveMetricAPICall
-     * @description Makes git REST API calls using axios to fetch issues and pull requests data from the past two months
+     * @description Makes git REST API calls using axios to fetch issues and pull requests data from the past three months
      * @returns {Promise<{ issuesResponse: any, pullRequestsResponse: any }>} A promise that resolves with the issues and pull requests response data.
      * 
      * @throws {Error} Throws an error if the GitHub token is missing.
@@ -74,7 +74,7 @@ export class ResponsiveMetric extends Metric {
 
         // Calculate two months ago date
         const today = new Date();
-        const twoMonthsAgo = new Date(today.setMonth(today.getMonth() - 2)).toISOString();
+        const twoMonthsAgo = new Date(today.setMonth(today.getMonth() - 3)).toISOString();
 
         try {
             // Get issues
@@ -168,7 +168,7 @@ export class ResponsiveMetric extends Metric {
             const normalizedTime = (cappedResponseTime - minResponseTime) / (maxResponseTime - minResponseTime);
 
             // Normalize the response time between 0 and 1
-            const k = 8;
+            const k = 6;
             respScore = 1 / (1 + Math.exp(k * (normalizedTime - 0.5)));
         }
 

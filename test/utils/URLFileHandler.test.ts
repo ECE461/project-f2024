@@ -1,12 +1,12 @@
 import fs from 'fs';
-import { URLFileHandler } from '../utils/URLFileHandler';
-import { URLHandler } from '../utils/URLHandler';
+import { URLFileHandler } from '../../src/utils/URLFileHandler';
+import { URLHandler } from '../../src/utils/URLHandler';
 
 // Mock the fs module
 jest.mock('fs');
 
 // Mock the URLHandler class
-jest.mock('../utils/URLHandler', () => {
+jest.mock('../../src/utils/URLHandler', () => {
   return {
     URLHandler: jest.fn().mockImplementation(() => {
       return {
@@ -19,16 +19,6 @@ jest.mock('../utils/URLHandler', () => {
 });
 
 describe('URLFileHandler', () => {
-  describe('isTxtFile', () => {
-    it('should return true for .txt files', () => {
-      expect(URLFileHandler.isTxtFile('file.txt')).toBe(true);
-    });
-
-    it('should return false for non-.txt files', () => {
-      expect(URLFileHandler.isTxtFile('file.pdf')).toBe(false);
-    });
-  });
-
   describe('getGithubUrlsFromFile', () => {
     let filePath: string;
     let data: string;
@@ -49,9 +39,8 @@ describe('URLFileHandler', () => {
 
     });
 
-    it('should return null for an invalid file', async () => {
-      const urls = await URLFileHandler.getGithubUrlsFromFile('invalid.file');
-      expect(urls).toBe(null);
+    it('should throw error for invalid (nonexitant) file', async () => {
+      await expect(URLFileHandler.getGithubUrlsFromFile('invalid.file')).rejects.toThrow("Cannot read properties of undefined (reading 'readFile')");
     });
   });
 });

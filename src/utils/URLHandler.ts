@@ -74,6 +74,7 @@ export class URLHandler {
     return this.githubURL;
   }
 
+
   /**
    * @method getBaseAPI
    * @return {string} The base API URL for the GitHub repository if set, otherwise an empty string.
@@ -141,6 +142,29 @@ export class URLHandler {
     
     return "";
   }
+
+   /**
+   * @method getOwnerName
+   * @return {string} The repository owner extracted from the github repository URL.
+   * @description
+   * This method extracts and returns the repository owner from the github repository URL.
+   * If the URL does not contain a repository owner, it returns an empty string.
+   */
+
+  public getOwnerName(): string {
+    try {
+      const parsedUrl = new URL(this.getRepoURL());
+      const pathParts = parsedUrl.pathname.split('/').filter(part => part.length > 0);
+      
+      if (pathParts.length >= 2) {
+          return pathParts[0]; 
+      }
+  } catch (error) {
+      console.error('Invalid URL or format:', this.getRepoURL(), error);
+  }
+  return "";
+}
+
 
   /**
    * @method isValidURL
@@ -234,4 +258,6 @@ public static async getGithubURLFromNpmURL(url: string): Promise<string | null> 
   }
   return null;
 }
+
 }
+

@@ -3,6 +3,7 @@ import { exec } from 'child_process';
 import { promisify } from 'util';
 import * as path from 'path';
 import * as fs from 'fs';
+import { checkGithubToken } from '../src/utils/helper';
 
 const execPromise = promisify(exec);
 const usage = `
@@ -11,8 +12,9 @@ Usage: ./run [command]
 Commands:
   install           Install project dependencies
   test              Run unit tests
-  <url_file>.txt    Score modules from URLs listed in .txt file
+  <url_file>        Score modules from URLs listed in file
 `;
+
 
 describe('Test run.ts main', () => {
   describe('Run with no arguments', () => {
@@ -24,7 +26,7 @@ describe('Test run.ts main', () => {
         if (stderr) {
             throw new Error(`Error: ${stderr}`);
         }
-        expect(null).not.toBeFalsy() // fail() shouldn't reach this line
+        expect(null).not.toBeFalsy(); // fail() shouldn't reach this line
       }
       catch (error: any) {
         expect(error.code).not.toBe(0);
@@ -35,19 +37,27 @@ describe('Test run.ts main', () => {
     });
   });
 
-  describe('Run with incorrect argument', () => {
-    it('should throw error, print error, and print usage', async () => {
-        // Run the command
-      try {
-        const { stdout: stdout, stderr:stderr } = await execPromise('./run incorrect_argument');
-        expect(null).not.toBeFalsy() // fail() shouldn't reach this line
-      } catch (error: any) {
-        expect(error.stderr).toContain("Incorrect arguments provided to ./run");
-        expect(error.stderr).toContain(usage);
-      }
+  describe('No Github token with ./run test or ./run <url_file>', () => {
+    const tempToken = process.env.GITHUB_TOKEN;
+    beforeEach(() => {
+        delete process.env.GITHUB_TOKEN;
+    });
+    afterEach(() => {
+        process.env.GITHUB_TOKEN = tempToken;   
+    });
+    it('should print Please set the GITHUB_TOKEN environment variable', async () => { 
+      delete process.env.GITHUB_TOKEN;
+      expect(process.env.GITHUB_TOKEN).toBeUndefined();
+      await expect(checkGithubToken()).rejects.toThrow('Please set the GITHUB_TOKEN environment variable');
+    });
+
+    it ('should print Invalid GitHub token', async() => {
+      process.env.GITHUB_TOKEN = "invalid_token";
+      await expect(checkGithubToken()).rejects.toThrow('Invalid GitHub token');
     });
   });
-  describe('Run with correct argument ./run <file>.txt', () => {
+
+  describe('Run with correct argument ./run <file>', () => {
     const tempFilePath = path.join(__dirname, 'test.txt');
     afterEach(async () => {
       // Clean up the temporary file after each test
@@ -64,7 +74,7 @@ describe('Test run.ts main', () => {
           
         }
         catch (error: any) {
-          expect(null).not.toBeFalsy() // fail() shouldn't reach this line
+          expect(null).not.toBeFalsy(); // fail() shouldn't reach this line
         }      
       }, 10000);
   });

@@ -45,8 +45,8 @@ export class BusFactor extends Metric {
             const response = await axios.get(ep, {headers: {'Authorization': `token ${process.env.GITHUB_TOKEN}`}}); 
             
             if(!response || !response.data || !response.data.length){
-                console.log('data is null');
-                this.score = -1; 
+                // console.log('data is null');
+                this.score = 0; 
                 return;
             }
             
@@ -91,11 +91,11 @@ export class BusFactor extends Metric {
 
         //there are certain github repo settings that omit data
         if(!total_lines && total_commits){
-            console.log('proceed with caution, total changed lines unable to be retrieved by api'); 
+            // console.log('proceed with caution, total changed lines unable to be retrieved by api'); 
             this.score = 1 - 0.5 * (hc_commits / total_commits); //omit calculation that would make it null 
         }
         else if (!total_commits){
-            console.log('proceed with caution, total commits unable to be retrieved by api')
+            // console.log('proceed with caution, total commits unable to be retrieved by api')
             this.score = 1 - 0.5 * (hc_lines / total_lines);
         }
         else{
