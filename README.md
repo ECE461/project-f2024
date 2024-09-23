@@ -65,7 +65,7 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
 * Want to determine if issues are resolved as they are brought up, demonstrating an effort to minimize bugs and hence "increase" the validity of the code
 * `correctness = resolved issues / total issues`
 ### License
-* Require LGPLv2.1 License
+* Only LGPLv2.1 License is accepted, rest is rejected
 * Utilize regex to parse through README, and LICENSE files as needed
 ### Ramp Up
 * High score indicates low ramp up time required
