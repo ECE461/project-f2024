@@ -112,11 +112,11 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
      * `commands`   Contains functions called for each CL argument
      * `metrics`    Contains classes for each metric
      * `utils`      Contains helper functions for URL and cloning
- * `test`: contains .test.ts file test suit corresponding with each file in in src subfolders
+ * `test`: contains jest test suite corresponding with each file in in src subfolders
      * `commands`
      * `metrics`
      * `utils`
- * `dist: compiled .ts -> .js files from src
+ * `dist`: compiled .ts -> .js files from src
      * `commands`
      * `metrics`
      * `utils`
