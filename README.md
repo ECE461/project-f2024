@@ -56,13 +56,17 @@ Our goal is to simplify the process of assessing open-source software.
 All scores are calculated between 0 and 1 (inclusive), a higher score corresponds to a better implementation of the metric within a repository. If the module fails to calculate the score, the score is set to -1.
 ### Bus Factor
 * Defined by "the minimum number of team members that have to suddenly disappear from a project before the project stalls due to lack of knowledgeable or competent personnel" (Source: Wikipedia).
-* Equation used: `1 - 0.5 (highest contributor commits / total commits) - 0.5 (highest contributor lines changed) / total lines changed)`
+* `bus_factor = 1 - 0.5 (highest contributor commits / total commits) - 0.5 (highest contributor lines changed) / total lines changed)`
     * if there is only one contributor, bus factor would be 0
     * if there are many contributors, but changes are disproportionately made by a single person, bus factor would approach 0
     * for evenly split contributions, bus factor will approach 1
-* Possibility of repositories that omit commits or line changed data
+* Possibility of repositories that omit commits or line changed data, such as React
 ### Correctness
+* Want to determine if issues are resolved as they are brought up, demonstrating an effort to minimize bugs and hence "increase" the validity of the code
+* `correctness = resolved issues / total issues`
 ### License
+* Require LGPLv2.1 License
+* Utilize regex to parse through README, and LICENSE files as needed
 ### Ramp Up
 * High score indicates low ramp up time required
 * Measured by ratio of documentation to code
@@ -72,7 +76,7 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
 * This score measures the responsiveness of contributors within last three months
 * Calculated using average response times for issues and pull requests i.e. time from open to close
 ### Net Score
-* Calculated as a net score between the five metrics: `NS = LC * (0.4BF + 0.15CM + 0.15RU + 0.3RM)`
+* Calculated as a net score between the five metrics: `NS = LC * (0.4BF + 0.15CM + 0.15RU + 0.3RM)`where 
     * `NS` = Net Score
     * `LC` = License
     * `BF` = Bus Factor
@@ -80,11 +84,15 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
     * `RU` = Ramp Up
     * `RM` = Responsive Maintainer
 * Weights:
-    * `LC` = weight of the net score depends on the licensing score. Package is automatically rejected for ACME if it doesn't match the LGPLv2.0 license regardless of other metrics.
+    * `LC` = weight of the net score depends on the licensing score. Package is automatically rejected for ACME if it doesn't match the LGPLv2.0 license regardless of other metrics, score will be pulled down to 0 due to the binary nature of the metric.
+    * `BF` = 0.4, according to Sarah's requirements, bus factor is the most important metric in determining repository validity
+    * `CM` = 0.15, while closed issues and raised issues can indicate correctness it is possible that they are not a direct correlation
+    * `RU` = 0.15, our target 'stakeholders', or users, of the product are engineers that are capable and used to learning new how new packages work
+    * `RM` = 0.3, this metric is similar to bus factor because it shows a continuous effort to maintain the package if any issues were brought up
 ## External Dependencies
 * **axios**: A promise-based HTTP client for making requests to the npm Registry and GitHub REST APIs. It simplifies the process of handling asynchronous requests and managing responses, making it easier to interact with external services.
-* **isomorphic-git**: A JavaScript library that allows for shallow cloning of Git repositories in both browser and Node.js environments.
 * **minimist**: A lightweight module for parsing command-line arguments. It enables easy extraction of arguments from the CLI, allowing for flexible and user-friendly command-line interfaces in your application.
+* **jest**: A javascript testing framework 
 
 ## Logging
 * **LOG_LEVEL**
@@ -103,4 +111,7 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
      * `commands`
      * `metrics`
      * `utils`
- * `dist`: compiled .ts files from src
+ * `dist: compiled .ts -> .js files from src
+     * `commands`
+     * `metrics`
+     * `utils`
