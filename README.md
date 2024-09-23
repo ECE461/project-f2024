@@ -80,7 +80,7 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
     * `RU` = Ramp Up
     * `RM` = Responsive Maintainer
 * Weights:
-    * `LC`: no weight, but multiplied, because if a license if not compatible with LGPLv2.0 it renders the package unusable regardless of whether or not the other metrics are outstanding or not
+    * `LC` = weight of the net score depends on the licensing score. Package is automatically rejected for ACME if it doesn't match the LGPLv2.0 license regardless of other metrics.
 ## External Dependencies
 * **axios**: A promise-based HTTP client for making requests to the npm Registry and GitHub REST APIs. It simplifies the process of handling asynchronous requests and managing responses, making it easier to interact with external services.
 * **isomorphic-git**: A JavaScript library that allows for shallow cloning of Git repositories in both browser and Node.js environments.
