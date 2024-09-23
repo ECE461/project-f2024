@@ -89,7 +89,7 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
     * `RU` = Ramp Up
     * `RM` = Responsive Maintainer
 * Weights:
-    * `LC` = weight of the net score depends on the licensing score. Package is automatically rejected for ACME if it doesn't match the LGPLv2.0 license regardless of other metrics, score will be pulled down to 0 due to the binary nature of the metric.
+    * `LC` = weight of the net score depends on the licensing score. Package is automatically rejected for ACME if it doesn't match the LGPLv2.0 license regardless of other attributes, score will be pulled down to 0 due to the binary nature of this metric
     * `BF` = 0.4, according to Sarah's requirements, bus factor is the most important metric in determining repository validity
     * `CM` = 0.15, while closed issues and raised issues can indicate correctness it is possible that they are not a direct correlation
     * `RU` = 0.15, our target 'stakeholders', or users, of the product are engineers that are capable and used to learning new how new packages work
