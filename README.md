@@ -77,7 +77,7 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
 * Calculated using average response times for issues and pull requests i.e. time from open to close
 * `responsiveness = min(1, 1 / (1 + e^(K * normAvgTime))) `
     * `K` = 6, constant value
-    * `normAvgTime = (avgTime– minResp) / (maxResp – minResp)`
+    * `normAvgTime = (avgTime – minResp) / (maxResp – minResp)`
         * `minResp` = 1 day (8.64e+7 ms)
         * `maxResp` = 30 days (2.592e+9 ms)
 ### Net Score
