@@ -1,11 +1,11 @@
 # project-f2024
 
 ## Project Purpose:
-This repository is an implementation of a command line tool which aims to help developers choose reliable open-source modules. By analyzing data from GitHub, it evaluates modules based on important factors like ease of use, correctness, contributor activity, responsiveness, and license compatibility.
+This repository is an implementation of a command line tool which aims to help developers choose reliable open-source modules. By analyzing npm package repositories on GitHub, it evaluates modules based on important factors such as ease of use, correctness, contributor activity, responsiveness, and license compatibility. 
 
 Our goal is to simplify the process of assessing open-source software.
 
-## Usage:
+## Usage
 ### `./run install`
 * Installs all dependencies required for project-f2024 reposistory
 
@@ -33,7 +33,7 @@ Our goal is to simplify the process of assessing open-source software.
     9/10 test cases passed. 90% line coverage achieved.
     ```
 
-## Setup:
+## Setup
 1. Install Dependencies: `./run install`
 2. Setup environment variables
     1. LOG_FILE (see [Logging](#Logging) section)
@@ -72,9 +72,15 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
 * This score measures the responsiveness of contributors within last three months
 * Calculated using average response times for issues and pull requests i.e. time from open to close
 ### Net Score
-* Calculated as a net score between the five metrics
+* Calculated as a net score between the five metrics: `NS = LC * (0.4BF + 0.15CM + 0.15RU + 0.3RM)`
+    * `NS` = Net Score
+    * `LC` = License
+    * `BF` = Bus Factor
+    * `CM` = Correctness
+    * `RU` = Ramp Up
+    * `RM` = Responsive Maintainer
 * Weights:
-    * TODO: fill in
+    * `LC`: no weight, but multiplied, because if a license if not compatible with LGPLv2.0 it renders the package unusable regardless of whether or not the other metrics are outstanding or not
 ## External Dependencies
 * **axios**: A promise-based HTTP client for making requests to the npm Registry and GitHub REST APIs. It simplifies the process of handling asynchronous requests and managing responses, making it easier to interact with external services.
 * **isomorphic-git**: A JavaScript library that allows for shallow cloning of Git repositories in both browser and Node.js environments.
