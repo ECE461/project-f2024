@@ -66,7 +66,7 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
 * `correctness = resolved issues / total issues`
 ### License
 * Only LGPLv2.1 License is accepted, rest is rejected
-* Utilize regex to parse through README, and LICENSE files as needed
+* Utilize regex to parse through README and LICENSE files as needed
 ### Ramp Up
 * High score indicates low ramp up time required
 * Measured by ratio of documentation to code
