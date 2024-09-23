@@ -107,7 +107,7 @@
   },
   "include": [
     "src/**/*.ts"
-  ],
+, "test/metrics/busFactor.test.ts"  ],
   "exclude": [
     "node_modules",
     "tmp"

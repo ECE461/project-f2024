@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { RampUp } from '../metrics/RampUp';
-import { URLHandler } from '../utils/URLHandler';
-import { BusFactor } from '../metrics/BusFactor';
+import { RampUp } from '../../src/metrics/RampUp';
+import { URLHandler } from '../../src/utils/URLHandler';
+import { BusFactor } from '../../src/metrics/BusFactor';
 import { buffer } from 'stream/consumers';
-import { Logger } from '../logUtils';
+import { Logger } from '../../src/logUtils';
 import { configDotenv } from 'dotenv';
 import { dot } from 'node:test/reporters';
 
