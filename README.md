@@ -1,6 +1,6 @@
 # project-f2024
 
-## Project Purpose:
+## Project Purpose
 This repository is an implementation of a command line tool which aims to help developers choose reliable open-source modules. By analyzing npm package repositories on GitHub, it evaluates modules based on important factors such as ease of use, correctness, contributor activity, responsiveness, and license compatibility. 
 
 Our goal is to simplify the process of assessing open-source software.
