@@ -71,8 +71,6 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
 ### Responsiveness
 * This score measures the responsiveness of contributors within last three months
 * Calculated using average response times for issues and pull requests i.e. time from open to close
-### Metric
-* Abstract class used to structure the five metrics
 ### Net Score
 * Calculated as a net score between the five metrics
 * Weights:
@@ -91,8 +89,12 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
     * Default is default.log
 
 ## Structure
-* `src`
+* `src`: .ts files
      * `commands`   Contains functions called for each CL argument
      * `metrics`    Contains classes for each metric
      * `utils`      Contains helper functions for URL and cloning
- * `test`
+ * `test`: contains .test.ts file test suit corresponding with each file in in src subfolders
+     * `commands`
+     * `metrics`
+     * `utils`
+ * `dist`: compiled .ts files from src
