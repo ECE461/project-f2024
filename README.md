@@ -60,7 +60,9 @@ All scores are calculated between 0 and 1 (inclusive), a higher score correspond
     * if there is only one contributor, bus factor would be 0
     * if there are many contributors, but changes are disproportionately made by a single person, bus factor would approach 0
     * for evenly split contributions, bus factor will approach 1
-* Possibility of repositories that omit commits or line changed data, such as React
+* Possibility of repositories that omit commits or line changed data, such as React. 
+    * no commits, lines changed: `bus_factor = 1 - 0.5 (highest contributor lines changed) / total lines changed)`
+    * commits exist, no lines changed:  `bus_factor = 1 - 0.5 (highest contributor commits / total commits)`
 ### Correctness
 * Want to determine if issues are resolved as they are brought up, demonstrating an effort to minimize bugs and hence "increase" the validity of the code
 * `correctness = resolved issues / total issues`
