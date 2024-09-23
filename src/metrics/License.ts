@@ -88,7 +88,7 @@ export class LicenseMetric extends Metric {
             }
 
         } catch (error) {
-            console.error('Error fetching README file:', error);
+            Logger.logInfo('Error fetching README file: ' + error);
         }
 
         // Return 0 if no license found in README

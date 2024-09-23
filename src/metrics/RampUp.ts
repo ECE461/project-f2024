@@ -127,11 +127,6 @@ export class RampUp extends Metric {
             }
 
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                if (error.response && error.response.status === 401) {
-                    console.error("Invalid or expired Github token");
-                }
-            }
             Logger.logInfo('Ramp up: Error getting repository files and sizes');
             Logger.logDebug(error);
             this.score = 0;

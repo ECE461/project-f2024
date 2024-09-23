@@ -98,9 +98,9 @@ export class Correctness extends Metric {
             return totalIssues
         }catch(error){
             if(axios.isAxiosError(error)){
-                console.error(`Error fetching ${state} issues:`, error.response?.data);
+                Logger.logInfo(`Error fetching ${state} issues:` + error.response?.data);
             } else {
-                console.error('Unknown error:', error);
+                Logger.logInfo(`Unknown error: ${error}`);
             }
             return 0;
         }

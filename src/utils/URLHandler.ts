@@ -159,7 +159,7 @@ export class URLHandler {
           return pathParts[0]; 
       }
   } catch (error) {
-      console.error('Invalid URL or format:', this.getRepoURL(), error);
+      Logger.logDebug(`Invalid URL or format: ${this.getRepoURL()} ${error}`);
   }
   return "";
 }
