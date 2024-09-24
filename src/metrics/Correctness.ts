@@ -81,14 +81,12 @@ export class Correctness extends Metric {
     async getIssueCountByState(state: 'open' | 'closed'): Promise <number> {
         try{
             const repoName = this.url.getRepoName();
-            
             const repoOwner =this.url.getOwnerName();
             const repoFullName = `${repoOwner}/${repoName}`;
             const apiURLIssue = `https://api.github.com/search/issues?q=repo:${repoFullName}+is:issue+state:${state}`;
             Logger.logDebug(`Correctness: API Call with ${apiURLIssue}`);
             const issuesResponse = await axios.get(apiURLIssue,{
                 headers: {
-                    
                     Authorization: `Bearer ${process.env.GITHUB_TOKEN}`},
                 
             });
@@ -105,7 +103,6 @@ export class Correctness extends Metric {
             return 0;
         }
     }
-
     /**
      * @method getIssueCounts
      * @return {Promise<[number, number]>} A promise that resolves to an array containing the count of open and closed issues.
